@@ -1,0 +1,16 @@
+#canvas {
+	background-color: #d3d3d3;
+	position: relative;
+}
+#board {
+	height: 198px;
+	width: 398px;
+	border: 1px solid blue;
+	float: right;
+	position: relative;
+}
+#wrapper {
+	height: 605px;
+	width: 400px;
+	position: absolute;
+}

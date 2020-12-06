@@ -1,0 +1,32 @@
+function storageValue() {
+    var uno = document.getElementById("storage1");
+    var duck = uno.value
+    var dos = document.getElementById("storage2");
+    var duckie = dos.value
+    var tres = document.getElementById("storage3");
+    var rubberDuck = tres.value
+    var quatro = document.getElementById("storage4");
+    var rubberDuckie = quatro.value
+    alert("Your stored values are: " + duck + "," + duckie + "," + rubberDuck + "," + rubberDuckie);
+    localStorage.setItem('duck', duck);
+    localStorage.setItem('duckie', duckie);
+    localStorage.setItem('rubberDuck', rubberDuck);
+    localStorage.setItem('rubberDuckie', rubberDuckie);
+    checkLocalStorage();
+}
+
+function checkLocalStorage() {
+    var div = document.getElementById("storageDiv");
+    div.innerHTML = localStorage["duck"] + localStorage["duckie"] + localStorage["rubberDuck"] + localStorage["rubberDuckie"];
+}
+
+checkLocalStorage();
+<!--
+COLOR Storage
+
+var storeColor = colorPicker.value;
+localStorage.setItem("color", storeColor);
+
+localStorage.getItem("color") //returns storeColor value
+var getColor = localStorage.getItem("color");
+-->

@@ -1,0 +1,98 @@
+<!-- This HTML program is to help customer support keep track of requests --> 
+<html>
+<head>
+<title>TaxAct BINGO! 2</title>
+
+<link rel="stylesheet" href="code/bingo_style.css">
+
+<script type="text/javascript" src="code/bingoSpaces.js"></script>
+
+<script type="text/javascript" src="code/bingo_fun.js"></script>
+
+
+</head>
+<body onload="randomizeTable();">
+<div id="bodydiv">
+
+<div id="boarddiv">
+<table>
+<tr class="bingo">
+  <td>B</td>
+  <td>I</td>
+  <td>N</td>
+  <td>G</td>
+  <td>O</td>
+</tr>
+
+<tr class="bingorow">
+  <td id="0" onclick="changeColor(this);"></td>
+  <td id="1" onclick="changeColor(this);"></td>
+  <td id="2" onclick="changeColor(this);"></td>
+  <td id="3" onclick="changeColor(this);"></td>
+  <td id="4" onclick="changeColor(this);"></td>
+</tr>
+<tr class="bingorow">
+  <td id="5" onclick="changeColor(this);"></td>
+  <td id="6" onclick="changeColor(this);"></td>
+  <td id="7" onclick="changeColor(this);"></td>
+  <td id="8" onclick="changeColor(this);"></td>
+  <td id="9" onclick="changeColor(this);"></td>
+</tr>
+<tr class="bingorow">
+  <td id="10" onclick="changeColor(this);"></td>
+  <td id="11" onclick="changeColor(this);"></td>
+  <td id="FREE" style="font-weight: bold; background-color: DeepSkyBlue">Free Space</td>
+  <td id="12" onclick="changeColor(this);"></td>
+  <td id="13" onclick="changeColor(this);"></td>
+</tr>
+<tr class="bingorow">
+  <td id="14" onclick="changeColor(this);"></td>
+  <td id="15" onclick="changeColor(this);"></td>
+  <td id="16" onclick="changeColor(this);"></td>
+  <td id="17" onclick="changeColor(this);"></td>
+  <td id="18" onclick="changeColor(this);"></td>
+</tr>
+<tr class="bingorow">
+  <td id="19" onclick="changeColor(this);"></td>
+  <td id="20" onclick="changeColor(this);"></td>
+  <td id="21" onclick="changeColor(this);"></td>
+  <td id="22" onclick="changeColor(this);"></td>
+  <td id="23" onclick="changeColor(this);"></td>
+</tr>
+</table>
+
+<br><div id="msg">__</div><br>
+<input id="msgbox" type="textbox" size="20"><br><br>
+<input id="restartbutton" type="button" value="start for free" onclick="restart()">
+
+<P STYLE="margin-bottom: 0in"><BR>
+</P>
+<P STYLE="margin-bottom: 0in"><BR>
+</P>
+<P STYLE="margin-left: 33px;margin-top: -50px;"><B>Celebrity Bonus Space </B></p>
+<NAV>
+<UL style="margin-left: 10px;">
+	</P>
+	<LI><P STYLE="margin-bottom: 0in"><B>Vikram</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>McKown</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>Bruno</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>Eva Putnam/Boykin</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>Spargur</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>Maria Gagne</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>NJ Superdick</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>Berdean</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>No2BigGovernment</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>LibreTax</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>Gerry Trissel aka TaxMan007</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>Kenosha.Tax.Guy (Randall Cook)</B></P>
+<LI><P STYLE="margin-bottom: 0in"><B>More to come.....</B></P>
+</UL>
+</NAV>
+</div>
+
+<div id="sideimgdiv">
+	<img src="code/cd.jpg" id="sideimg">
+</div>
+</div>
+</body>
+</html>

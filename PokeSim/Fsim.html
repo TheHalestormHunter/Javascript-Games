@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Page Title</title>
+</head>
+
+<link rel="stylesheet" href="code/styles.css">
+<body onload="pokemonPicker()">
+<div id="game">
+
+  <div id="pokemon1">
+    <canvas id="pokePlace1" width="64" height="64">
+    </canvas>
+    <div id="pokemon1Tag">
+      <div id="pokemon1Name"></div>
+      <div id="pokemon1Level"></div>
+      <div id="pokemon1Status"></div>
+      <div id="HP">HP</div>
+      <div id="pokemon1Health">
+        <div id="pokemon1Current"></div>
+        <div id="pokemon1HPdisplay"></div>
+      </div>
+      <div id="exp">Exp.</div>
+      <div id="expBar">
+        <div id="exp1"></div>
+      </div>
+    </div>
+  </div>
+  
+  <div id="pokemon2">
+    <canvas id="pokePlace2" width="64" height="64">
+    </canvas>
+    <div id="pokemon2Tag">
+      <div id="pokemon2Name"></div>
+      <div id="pokemon2Level"></div>
+      <div id="pokemon2Status"></div>
+      <div id="HP">HP</div>
+      <div id="pokemon2Health">
+        <div id="pokemon2Current"></div>
+      <div id="pokemon2HPdisplay"></div>
+      </div>
+    </div>
+  </div>
+  
+  <div id="message">
+    <textarea id="desc" readonly disabled></textarea>
+    <div id="moveMenu">
+      <button class="button" value="0" id="menu1" onclick="attack(this.value)">
+        <div class="moves" id="move1"></div>
+        <div id="PP1"></div>
+      </button>
+      <button class="button" value="1" id="menu2" onclick="attack(this.value)">
+        <div class="moves" id="move2"></div>
+        <div id="PP2"></div>
+      </button>
+      <button class="button" value="2" id="menu3" onclick="attack(this.value)">
+        <div class="moves" id="move3"></div>
+        <div id="PP3"></div>
+      </button>
+      <button class="button" value="3" id="menu4" onclick="attack(this.value)">
+        <div class="moves" id="move4"></div>
+        <div id="PP4"></div>
+      </button>     
+    </div>
+    <div id="buttonOptions">
+      <button input type="button" id="reset" onclick="clearSave()" value="Reset">Reset Game</button>
+      <button input type="button" id="other" onclick="newMove()" value="newMove">New Move Set</button>
+      <button input type="button" id="save" onclick="savePoke()" value="Save">Save Pokemon</button>
+    </div>
+  </div>
+</div>
+
+</body>
+<script src="code/moveData.js"></script>
+<script src="code/gen 1 list.js"></script>
+<script src="code/workoutPlan.js"></script>
+
+</html>

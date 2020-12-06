@@ -1,0 +1,10 @@
+<html>
+<head>
+</head>
+<body>
+<input= "button">
+
+</body>
+<footer>
+</footer>
+</html>

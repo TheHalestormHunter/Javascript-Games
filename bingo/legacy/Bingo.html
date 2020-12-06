@@ -1,0 +1,310 @@
+<!-- This HTML program is to help customer support keep track of requests --> 
+<html>
+<head>
+<title>TaxAct BINGO! 2</title>
+
+<style type="text/css">
+table {
+  
+  border-collapse: collapse;
+  font-family: DejaVu Sans;
+}
+
+
+.bingo {
+  font-size: 72;
+  font-weight: bold;
+  text-align: center;
+  font-family: DejaVu Sans;
+  background-color: cyan;
+
+}
+
+@keyframes example {
+    0%   {background-color: cyan;}
+    13%  {background-color: lawngreen;}
+    25%  {background-color: lime;}
+    37%  {background-color: yellow;}
+    50%  {background-color: orange;}
+    63%  {background-color: red;}
+    77%  {background-color: purple;}
+    90%  {background-color: magenta;}
+    100% {background-color: fuchsia;}
+}
+
+table, td{
+
+  border: 1px solid black;
+  table-layout: fixed;
+  width: 150;
+  height: 100;
+  text-align: center;
+  text-transform: capitalize;  
+}
+nav ul{height: 275px; width:18%;}
+nav ul{overflow:hidden; overflow-y:scroll;}
+
+
+
+</style>
+<title>TaxAct BINGO!</title>
+<script type="text/javascript" src="bingoSpaces.js"></script>
+<script type="text/javascript">
+function randomizeTable() {
+  picked = [];
+  if(bingoSpaces.length < 24) {
+    alert("Not enough entries for bingo spaces!");
+    return;
+  }
+  while(picked.length < 24) {
+    randNumber = Math.trunc(bingoSpaces.length*Math.random());
+    if(picked.indexOf(randNumber)<0) {
+      document.getElementById(picked.length.toString()).innerText = bingoSpaces[randNumber];
+      picked.push(randNumber);
+    }
+  }
+}
+
+color1 = "LightGreen";
+color2 = "LightGreen";
+
+function updateColor(color) {
+  color1 = color;
+  document.getElementById("FREE").style["background-color"] = color1;
+  for(i=0; i<24; i++) {
+    tmp = document.getElementById(i.toString());
+    if(tmp.color && tmp.style["background-color"]!="white") tmp.style["background-color"] = color1;
+  }
+  
+}
+
+
+function changeColor(tableData) {
+  if(!tableData.color || tableData.color=="white") {
+    tableData.style = "background-color:" + color1;
+    tableData.color = color1;
+  } else {
+    tableData.style = "background-color: white";
+    tableData.color = "white";
+  }
+	markSpot( parseInt(tableData.id) );	 // 
+}
+
+
+
+
+
+//********************** Mikes code ***************
+
+
+
+// ********************** begin Mikes code ********************************************************************
+
+var theboard = [ [0,0,0,0,0] ,   // keeps track of spots 
+	[0,0,0,0,0] ,
+	[0,0,1,0,0] ,
+	[0,0,0,0,0] ,
+	[0,0,0,0,0] ];
+
+
+function markSpot(spnum)   // make changes to theboard array 
+{
+
+	 
+
+	switch(spnum)
+	{
+		case 0: theboard[0][0] = 1; checkBingo(0,0,1); break; 
+		case 1: theboard[1][0] = 1; checkBingo(1,0,0); break;
+		case 2: theboard[2][0] = 1; checkBingo(2,0,0); break;
+		case 3: theboard[3][0] = 1; checkBingo(3,0,0); break;
+		case 4: theboard[4][0] = 1; checkBingo(4,0,1); break;
+
+		case 5: theboard[0][1] = 1; checkBingo(0,1,0); break;
+		case 6: theboard[1][1] = 1; checkBingo(1,1,1); break;
+		case 7: theboard[2][1] = 1; checkBingo(2,1,0); break;
+		case 8: theboard[3][1] = 1; checkBingo(3,1,1); break;
+		case 9: theboard[4][1] = 1; checkBingo(4,1,0); break;
+
+		case 10: theboard[0][2] = 1; checkBingo(0,2,0); break;
+		case 11: theboard[1][2] = 1; checkBingo(1,2,0); break;
+		// 2,2 is free 
+		case 12: theboard[3][2] = 1; checkBingo(3,2,0); break;
+		case 13: theboard[4][2] = 1; checkBingo(4,2,0); break;
+
+		case 14: theboard[0][3] = 1; checkBingo(0,3,0); break;
+		case 15: theboard[1][3] = 1; checkBingo(1,3,1); break;
+		case 16: theboard[2][3] = 1; checkBingo(2,3,0); break;
+		case 17: theboard[3][3] = 1; checkBingo(3,3,1); break;
+		case 18: theboard[4][3] = 1; checkBingo(4,3,0); break;
+
+		case 19: theboard[0][4] = 1; checkBingo(0,4,1); break;
+		case 20: theboard[1][4] = 1; checkBingo(1,4,0); break;
+		case 21: theboard[2][4] = 1; checkBingo(2,4,0); break;
+		case 22: theboard[3][4] = 1; checkBingo(3,4,0); break;
+		case 23: theboard[4][4] = 1; checkBingo(4,4,1); break;
+
+	}
+	
+} // end markSpot()
+
+
+
+function checkBingo(col, row, diag) // determine if Bingo has been made 
+{
+	var bingo = false;
+	var corners = false;
+	var blackout = false;
+
+	if( theboard[col][0] == 1 &&  theboard[col][1] == 1 && theboard[col][2] == 1 && theboard[col][3] == 1 && theboard[col][4] == 1 ) bingo = true;
+	else if( theboard[0][row] == 1 &&  theboard[1][row] == 1 && theboard[2][row] == 1 && theboard[3][row] == 1 && theboard[4][row] == 1 ) bingo = true;
+	else if( theboard[0][0] == 1 && theboard[0][4] == 1 && theboard[4][0] == 1 && theboard[4][4] == 1 ) corners = true;
+	 if( theboard[0][0] == 1 && theboard[0][1] == 1 && theboard[0][2] == 1 && theboard[0][3] == 1 && theboard[0][4] == 1 && theboard[1][0] == 1 && theboard[1][1] == 1  && theboard[1][2] == 1  && theboard[1][3] == 1 && theboard[1][4] == 1  && theboard[2][0] == 1  && theboard[2][1] == 1 && theboard[2][2] == 1 && theboard[2][3] == 1 && theboard[2][4] == 1  && theboard[3][0] == 1  && theboard[3][1] == 1 && theboard[3][2] == 1 && theboard[3][3] == 1 && theboard[3][4] == 1  && theboard[4][0] == 1 && theboard[4][1] == 1 && theboard[4][2] == 1 && theboard[4][3] == 1 && theboard[4][4] == 1 ) blackout = true;
+	else if( theboard == [ [1,1,1,1,1] ,   
+	[1,1,1,1,1] ,
+	[1,1,1,1,1] ,
+	[1,1,1,1,1] ,
+	[1,1,1,1,1] ]) blackout=true;
+
+	//else if (array.reduce(function(a,b)) { return a.concat(b) }
+			//.reduce(function(a,b) {return a+b});
+
+	else if( diag == 1 )
+		{
+			if( theboard[0][0] == 1 && theboard[1][1] == 1 && theboard[3][3] == 1 && theboard[4][4] == 1 ) bingo = true;
+			if( theboard[0][4] == 1 && theboard[1][3] == 1 && theboard[3][1] == 1 && theboard[4][0] == 1 ) bingo = true;
+		}
+
+	
+
+	
+	if( bingo )
+	{	document.getElementById("msg").innerHTML = "<strong><font size='+4' color='red'>BINGO!</font></strong>";
+		animate=document.getElementsByClassName("bingo");
+// animation code
+	 for(i=0; i< animate.length; i++){
+	animate[i].style["animation-name"]="example";
+    	animate[i].style["animation-duration"]="1s";
+		}
+	}
+
+	if( corners )
+	{ document.getElementById("msg").innerHTML = "<strong><font size='+4' color='red'>4 CORNERS!</font></strong>";
+	animate=document.getElementsByClassName("bingo");
+ 	 for(i=0; i< animate.length; i++){
+	animate[i].style["animation-name"]="example";
+    	animate[i].style["animation-duration"]="1s";	
+		}
+	}
+	if( blackout )
+	{ document.getElementById("msg").innerHTML = "<strong><font size='+4' color='red'>BLACKOUT!</font></strong>";
+
+	}
+
+
+} // end checkBingo()
+
+
+function restart()
+{
+	
+	for(var bnum = 0; bnum < 24; bnum++)
+	{
+		document.getElementById( bnum ).style = "background-color: white";
+		
+	}
+
+	theboard = [ [0,0,0,0,0] , [0,0,0,0,0] , [0,0,1,0,0] , [0,0,0,0,0] , [0,0,0,0,0] ];
+
+	
+
+}
+
+
+// ********************** end Mikes code ***********************************************************************
+
+</script>
+
+</head>
+<body onload="randomizeTable();">
+<table>
+<tr class="bingo">
+  <td>B</td>
+  <td>I</td>
+  <td>N</td>
+  <td>G</td>
+  <td>O</td>
+</tr>
+
+<tr class="bingorow">
+  <td id="0" onclick="changeColor(this);"></td>
+  <td id="1" onclick="changeColor(this);"></td>
+  <td id="2" onclick="changeColor(this);"></td>
+  <td id="3" onclick="changeColor(this);"></td>
+  <td id="4" onclick="changeColor(this);"></td>
+</tr>
+<tr class="bingorow">
+  <td id="5" onclick="changeColor(this);"></td>
+  <td id="6" onclick="changeColor(this);"></td>
+  <td id="7" onclick="changeColor(this);"></td>
+  <td id="8" onclick="changeColor(this);"></td>
+  <td id="9" onclick="changeColor(this);"></td>
+</tr>
+<tr class="bingorow">
+  <td id="10" onclick="changeColor(this);"></td>
+  <td id="11" onclick="changeColor(this);"></td>
+  <td id="FREE" style="font-weight: bold; background-color: lightgreen">Free Space</td>
+  <td id="12" onclick="changeColor(this);"></td>
+  <td id="13" onclick="changeColor(this);"></td>
+</tr>
+<tr class="bingorow">
+  <td id="14" onclick="changeColor(this);"></td>
+  <td id="15" onclick="changeColor(this);"></td>
+  <td id="16" onclick="changeColor(this);"></td>
+  <td id="17" onclick="changeColor(this);"></td>
+  <td id="18" onclick="changeColor(this);"></td>
+</tr>
+<tr class="bingorow">
+  <td id="19" onclick="changeColor(this);"></td>
+  <td id="20" onclick="changeColor(this);"></td>
+  <td id="21" onclick="changeColor(this);"></td>
+  <td id="22" onclick="changeColor(this);"></td>
+  <td id="23" onclick="changeColor(this);"></td>
+</tr>
+</table>
+
+Select color: <input type="color" onchange="updateColor(this.value);" value="#90EE90">
+
+<br><div id="msg">   </div><br>
+
+<input id="restartbutton" type="button" value="restart" onclick="reload()">
+
+
+<P STYLE="margin-bottom: 0in"><BR>
+</P>
+<P STYLE="margin-bottom: 0in"><BR>
+</P>
+<P STYLE="margin-left: 33px;margin-top: -50px;"><B>Celebrity Bonus Space </B></p>
+<NAV>
+<UL style="margin-left: 10px;">
+	</P>
+	<LI><P STYLE="margin-bottom: 0in"><B>Vikram</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>McKown</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>Bruno</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>Eva Putnam/Boykin</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>Spargur</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>Maria Gagne</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>NJ Superdick</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>Berdean</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>No2BigGovernment</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>LibreTax</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>Gerry Trissel aka TaxMan007</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>Kenosha.Tax.Guy (Randall Cook)</B></P>
+<LI><P STYLE="margin-bottom: 0in"><B>More to come.....</B></P>
+
+</UL>
+</NAV>
+
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<html>
+<head>
+</head>
+<style>
+.div{
+  height:20px;
+  width:10px;
+
+}
+</style>
+<script>
+var planet = 0;
+
+function explode(){
+	if(planet != 0) planet = 0;
+	var delay = setInterval(exploder, 75)
+	console.log("1")
+	document.getElementById("button1").disabled = true;
+}
+
+function exploder(){
+	if(planet < 10){
+	planet++;
+	document.getElementById("planetS").src = "resources/Explosion2/Planet" + planet + ".png";
+	}
+
+	if(planet >= 10){
+	clearInterval(delay); 
+	document.getElementById("button1").disabled = false;
+	}
+}
+
+</script>
+<body>
+<div>
+<img id="planetS" src="resources/Explosion2/Planet10.png">
+</div>
+<button onclick = "explode()" id="button1">Koffing Use Self-Destruct!</button>
+</body>
+<footer>
+</footer>
+</html>

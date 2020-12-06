@@ -1,0 +1,33 @@
+#game {
+		height: 400px;
+		width: 400px;
+		border: 1px solid black;
+		positon: absolute;
+	}
+#player {
+	height: 198px;
+	width: 398px;
+	border: 1px solid blue;
+	position: relative;
+}
+#stats {
+	height: 98px;
+	width: 198px;
+	border: 1px solid green;
+	position: relative;
+	float: left;
+}
+#controls {
+	height: 198px;
+	width: 198px;
+	border: 1px solid red;
+	position: relative;
+	float: right;
+}
+#inventory {
+	height: 98px;
+	width: 198px;
+	border: 1px solid orange;
+	position: relative;
+	float: left;
+}
