@@ -1,0 +1,19 @@
+else{
+      document.getElementById("f0").src = "face/smile.png"; 
+      if(e.target.className == "unrevealed") e.target.src = "tiles/blank.jpg";
+    }
+
+
+
+
+
+You can overlay a big, semi-transparent <div> that takes all the clicks. Just append a new <div> to <body> with this style:
+
+.overlay {
+    background-color: rgba(1, 1, 1, 0.7);
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+}

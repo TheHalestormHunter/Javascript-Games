@@ -1,0 +1,44 @@
+
+table {
+  
+  border-collapse: collapse;
+  font-family: DejaVu Sans;
+}
+
+table, td{
+
+  border: 1px solid black;
+  table-layout: fixed;
+  width: 150;
+  height: 100;
+  text-align: center;
+  text-transform: capitalize;  
+}
+
+
+.bingo {
+  font-size: 72;
+  font-weight: bold;
+  text-align: center;
+  font-family: DejaVu Sans;
+  background-color: white;
+}
+
+nav ul{height: 275px; width:18%;}
+nav ul{overflow:hidden; overflow-y:scroll;}
+
+
+#bodydiv
+{
+	width: 1250px;  
+}
+
+#boarddiv
+{
+	float: left;  
+}
+
+#sideimgdiv 
+{
+	float: right;   
+}

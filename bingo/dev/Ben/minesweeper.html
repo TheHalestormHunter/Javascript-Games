@@ -1,0 +1,1564 @@
+<html>
+<head>
+<style type="text/css">
+html, body {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+body {
+  display: flex;
+  background-color: antiquewhite;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.center {
+  margin: auto;
+}
+
+.wrapper {
+  background: #c0c0c0;
+  border: 4px solid black;
+  border-top-color: #fff;
+  border-left-color: #fff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+  padding: 10px;
+}
+
+.header, .board {
+  background: #c0c0c0;
+  border: 4px solid black;
+  border-bottom-color: #fff;
+  border-right-color: #fff;
+  border-left-color: #808080;
+  border-top-color: #808080;
+}
+
+.header {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
+
+.board {
+  font-size: 0;
+}
+
+.btn {
+  background: #c0c0c0;
+  border: 4px solid black;
+  border-top-color: #fff;
+  border-left-color: #fff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+  padding: 3px 5px;
+  cursor: pointer;
+}
+.btn:hover {
+  background: #c0c0c0;
+  border: 4px solid black;
+  border-bottom-color: #fff;
+  border-right-color: #fff;
+  border-left-color: #808080;
+  border-top-color: #808080;
+}
+
+.group {
+  display: none;
+}
+
+.cell {
+  display: inline-block;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  width: 1em;
+  height: 1em;
+  margin: 0;
+  color: transparent;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  outline: none;
+  background-image: url(minesweeper_tiles.jpg);
+  background-size: 500%;
+  cursor: pointer;
+}
+.cell:checked {
+  pointer-events: none;
+}
+.cell:checked.mines-0 {
+  background-position: -400% -100%;
+}
+.cell:checked.mines-1 {
+  background-position: 0 -100%;
+}
+.cell:checked.mines-2 {
+  background-position: -100% -100%;
+}
+.cell:checked.mines-3 {
+  background-position: -200% -100%;
+}
+.cell:checked.mines-4 {
+  background-position: -300% -100%;
+}
+.cell:checked.mines-5 {
+  background-position: 0 -200%;
+}
+.cell:checked.mines-6 {
+  background-position: -100% -200%;
+}
+.cell:checked.mines-7 {
+  background-position: -200% -200%;
+}
+.cell:checked.mines-8 {
+  background-position: -200% -300%;
+}
+
+#place-flag:checked ~ .cell:not(:checked):hover {
+  background-position: -100% 0;
+}
+
+.header .toggle-flag {
+  width: 1em;
+  height: 1em;
+  background-image: url(minesweeper_tiles.jpg);
+  background-position: -400% 0;
+  background-size: 500%;
+}
+
+#group-0.group:checked ~ .cell[groups~="group-0"] {
+  pointer-events: none;
+}
+#group-0.group:checked ~ .cell[groups~="group-0"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-0.group:checked ~ .cell[groups~="group-0"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-0.group:checked ~ .cell[groups~="group-0"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-0.group:checked ~ .cell[groups~="group-0"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-0.group:checked ~ .cell[groups~="group-0"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-0.group:checked ~ .cell[groups~="group-0"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-0.group:checked ~ .cell[groups~="group-0"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-0.group:checked ~ .cell[groups~="group-0"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-0.group:checked ~ .cell[groups~="group-0"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-1.group:checked ~ .cell[groups~="group-1"] {
+  pointer-events: none;
+}
+#group-1.group:checked ~ .cell[groups~="group-1"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-1.group:checked ~ .cell[groups~="group-1"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-1.group:checked ~ .cell[groups~="group-1"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-1.group:checked ~ .cell[groups~="group-1"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-1.group:checked ~ .cell[groups~="group-1"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-1.group:checked ~ .cell[groups~="group-1"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-1.group:checked ~ .cell[groups~="group-1"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-1.group:checked ~ .cell[groups~="group-1"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-1.group:checked ~ .cell[groups~="group-1"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-2.group:checked ~ .cell[groups~="group-2"] {
+  pointer-events: none;
+}
+#group-2.group:checked ~ .cell[groups~="group-2"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-2.group:checked ~ .cell[groups~="group-2"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-2.group:checked ~ .cell[groups~="group-2"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-2.group:checked ~ .cell[groups~="group-2"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-2.group:checked ~ .cell[groups~="group-2"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-2.group:checked ~ .cell[groups~="group-2"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-2.group:checked ~ .cell[groups~="group-2"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-2.group:checked ~ .cell[groups~="group-2"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-2.group:checked ~ .cell[groups~="group-2"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-3.group:checked ~ .cell[groups~="group-3"] {
+  pointer-events: none;
+}
+#group-3.group:checked ~ .cell[groups~="group-3"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-3.group:checked ~ .cell[groups~="group-3"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-3.group:checked ~ .cell[groups~="group-3"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-3.group:checked ~ .cell[groups~="group-3"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-3.group:checked ~ .cell[groups~="group-3"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-3.group:checked ~ .cell[groups~="group-3"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-3.group:checked ~ .cell[groups~="group-3"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-3.group:checked ~ .cell[groups~="group-3"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-3.group:checked ~ .cell[groups~="group-3"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-4.group:checked ~ .cell[groups~="group-4"] {
+  pointer-events: none;
+}
+#group-4.group:checked ~ .cell[groups~="group-4"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-4.group:checked ~ .cell[groups~="group-4"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-4.group:checked ~ .cell[groups~="group-4"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-4.group:checked ~ .cell[groups~="group-4"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-4.group:checked ~ .cell[groups~="group-4"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-4.group:checked ~ .cell[groups~="group-4"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-4.group:checked ~ .cell[groups~="group-4"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-4.group:checked ~ .cell[groups~="group-4"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-4.group:checked ~ .cell[groups~="group-4"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-5.group:checked ~ .cell[groups~="group-5"] {
+  pointer-events: none;
+}
+#group-5.group:checked ~ .cell[groups~="group-5"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-5.group:checked ~ .cell[groups~="group-5"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-5.group:checked ~ .cell[groups~="group-5"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-5.group:checked ~ .cell[groups~="group-5"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-5.group:checked ~ .cell[groups~="group-5"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-5.group:checked ~ .cell[groups~="group-5"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-5.group:checked ~ .cell[groups~="group-5"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-5.group:checked ~ .cell[groups~="group-5"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-5.group:checked ~ .cell[groups~="group-5"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-6.group:checked ~ .cell[groups~="group-6"] {
+  pointer-events: none;
+}
+#group-6.group:checked ~ .cell[groups~="group-6"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-6.group:checked ~ .cell[groups~="group-6"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-6.group:checked ~ .cell[groups~="group-6"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-6.group:checked ~ .cell[groups~="group-6"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-6.group:checked ~ .cell[groups~="group-6"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-6.group:checked ~ .cell[groups~="group-6"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-6.group:checked ~ .cell[groups~="group-6"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-6.group:checked ~ .cell[groups~="group-6"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-6.group:checked ~ .cell[groups~="group-6"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-7.group:checked ~ .cell[groups~="group-7"] {
+  pointer-events: none;
+}
+#group-7.group:checked ~ .cell[groups~="group-7"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-7.group:checked ~ .cell[groups~="group-7"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-7.group:checked ~ .cell[groups~="group-7"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-7.group:checked ~ .cell[groups~="group-7"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-7.group:checked ~ .cell[groups~="group-7"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-7.group:checked ~ .cell[groups~="group-7"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-7.group:checked ~ .cell[groups~="group-7"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-7.group:checked ~ .cell[groups~="group-7"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-7.group:checked ~ .cell[groups~="group-7"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-8.group:checked ~ .cell[groups~="group-8"] {
+  pointer-events: none;
+}
+#group-8.group:checked ~ .cell[groups~="group-8"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-8.group:checked ~ .cell[groups~="group-8"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-8.group:checked ~ .cell[groups~="group-8"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-8.group:checked ~ .cell[groups~="group-8"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-8.group:checked ~ .cell[groups~="group-8"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-8.group:checked ~ .cell[groups~="group-8"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-8.group:checked ~ .cell[groups~="group-8"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-8.group:checked ~ .cell[groups~="group-8"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-8.group:checked ~ .cell[groups~="group-8"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-9.group:checked ~ .cell[groups~="group-9"] {
+  pointer-events: none;
+}
+#group-9.group:checked ~ .cell[groups~="group-9"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-9.group:checked ~ .cell[groups~="group-9"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-9.group:checked ~ .cell[groups~="group-9"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-9.group:checked ~ .cell[groups~="group-9"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-9.group:checked ~ .cell[groups~="group-9"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-9.group:checked ~ .cell[groups~="group-9"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-9.group:checked ~ .cell[groups~="group-9"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-9.group:checked ~ .cell[groups~="group-9"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-9.group:checked ~ .cell[groups~="group-9"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-10.group:checked ~ .cell[groups~="group-10"] {
+  pointer-events: none;
+}
+#group-10.group:checked ~ .cell[groups~="group-10"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-10.group:checked ~ .cell[groups~="group-10"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-10.group:checked ~ .cell[groups~="group-10"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-10.group:checked ~ .cell[groups~="group-10"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-10.group:checked ~ .cell[groups~="group-10"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-10.group:checked ~ .cell[groups~="group-10"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-10.group:checked ~ .cell[groups~="group-10"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-10.group:checked ~ .cell[groups~="group-10"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-10.group:checked ~ .cell[groups~="group-10"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-11.group:checked ~ .cell[groups~="group-11"] {
+  pointer-events: none;
+}
+#group-11.group:checked ~ .cell[groups~="group-11"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-11.group:checked ~ .cell[groups~="group-11"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-11.group:checked ~ .cell[groups~="group-11"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-11.group:checked ~ .cell[groups~="group-11"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-11.group:checked ~ .cell[groups~="group-11"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-11.group:checked ~ .cell[groups~="group-11"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-11.group:checked ~ .cell[groups~="group-11"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-11.group:checked ~ .cell[groups~="group-11"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-11.group:checked ~ .cell[groups~="group-11"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-12.group:checked ~ .cell[groups~="group-12"] {
+  pointer-events: none;
+}
+#group-12.group:checked ~ .cell[groups~="group-12"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-12.group:checked ~ .cell[groups~="group-12"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-12.group:checked ~ .cell[groups~="group-12"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-12.group:checked ~ .cell[groups~="group-12"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-12.group:checked ~ .cell[groups~="group-12"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-12.group:checked ~ .cell[groups~="group-12"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-12.group:checked ~ .cell[groups~="group-12"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-12.group:checked ~ .cell[groups~="group-12"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-12.group:checked ~ .cell[groups~="group-12"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-13.group:checked ~ .cell[groups~="group-13"] {
+  pointer-events: none;
+}
+#group-13.group:checked ~ .cell[groups~="group-13"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-13.group:checked ~ .cell[groups~="group-13"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-13.group:checked ~ .cell[groups~="group-13"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-13.group:checked ~ .cell[groups~="group-13"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-13.group:checked ~ .cell[groups~="group-13"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-13.group:checked ~ .cell[groups~="group-13"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-13.group:checked ~ .cell[groups~="group-13"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-13.group:checked ~ .cell[groups~="group-13"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-13.group:checked ~ .cell[groups~="group-13"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-14.group:checked ~ .cell[groups~="group-14"] {
+  pointer-events: none;
+}
+#group-14.group:checked ~ .cell[groups~="group-14"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-14.group:checked ~ .cell[groups~="group-14"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-14.group:checked ~ .cell[groups~="group-14"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-14.group:checked ~ .cell[groups~="group-14"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-14.group:checked ~ .cell[groups~="group-14"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-14.group:checked ~ .cell[groups~="group-14"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-14.group:checked ~ .cell[groups~="group-14"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-14.group:checked ~ .cell[groups~="group-14"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-14.group:checked ~ .cell[groups~="group-14"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-15.group:checked ~ .cell[groups~="group-15"] {
+  pointer-events: none;
+}
+#group-15.group:checked ~ .cell[groups~="group-15"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-15.group:checked ~ .cell[groups~="group-15"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-15.group:checked ~ .cell[groups~="group-15"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-15.group:checked ~ .cell[groups~="group-15"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-15.group:checked ~ .cell[groups~="group-15"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-15.group:checked ~ .cell[groups~="group-15"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-15.group:checked ~ .cell[groups~="group-15"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-15.group:checked ~ .cell[groups~="group-15"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-15.group:checked ~ .cell[groups~="group-15"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-16.group:checked ~ .cell[groups~="group-16"] {
+  pointer-events: none;
+}
+#group-16.group:checked ~ .cell[groups~="group-16"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-16.group:checked ~ .cell[groups~="group-16"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-16.group:checked ~ .cell[groups~="group-16"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-16.group:checked ~ .cell[groups~="group-16"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-16.group:checked ~ .cell[groups~="group-16"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-16.group:checked ~ .cell[groups~="group-16"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-16.group:checked ~ .cell[groups~="group-16"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-16.group:checked ~ .cell[groups~="group-16"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-16.group:checked ~ .cell[groups~="group-16"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-17.group:checked ~ .cell[groups~="group-17"] {
+  pointer-events: none;
+}
+#group-17.group:checked ~ .cell[groups~="group-17"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-17.group:checked ~ .cell[groups~="group-17"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-17.group:checked ~ .cell[groups~="group-17"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-17.group:checked ~ .cell[groups~="group-17"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-17.group:checked ~ .cell[groups~="group-17"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-17.group:checked ~ .cell[groups~="group-17"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-17.group:checked ~ .cell[groups~="group-17"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-17.group:checked ~ .cell[groups~="group-17"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-17.group:checked ~ .cell[groups~="group-17"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-18.group:checked ~ .cell[groups~="group-18"] {
+  pointer-events: none;
+}
+#group-18.group:checked ~ .cell[groups~="group-18"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-18.group:checked ~ .cell[groups~="group-18"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-18.group:checked ~ .cell[groups~="group-18"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-18.group:checked ~ .cell[groups~="group-18"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-18.group:checked ~ .cell[groups~="group-18"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-18.group:checked ~ .cell[groups~="group-18"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-18.group:checked ~ .cell[groups~="group-18"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-18.group:checked ~ .cell[groups~="group-18"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-18.group:checked ~ .cell[groups~="group-18"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-19.group:checked ~ .cell[groups~="group-19"] {
+  pointer-events: none;
+}
+#group-19.group:checked ~ .cell[groups~="group-19"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-19.group:checked ~ .cell[groups~="group-19"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-19.group:checked ~ .cell[groups~="group-19"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-19.group:checked ~ .cell[groups~="group-19"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-19.group:checked ~ .cell[groups~="group-19"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-19.group:checked ~ .cell[groups~="group-19"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-19.group:checked ~ .cell[groups~="group-19"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-19.group:checked ~ .cell[groups~="group-19"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-19.group:checked ~ .cell[groups~="group-19"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-20.group:checked ~ .cell[groups~="group-20"] {
+  pointer-events: none;
+}
+#group-20.group:checked ~ .cell[groups~="group-20"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-20.group:checked ~ .cell[groups~="group-20"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-20.group:checked ~ .cell[groups~="group-20"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-20.group:checked ~ .cell[groups~="group-20"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-20.group:checked ~ .cell[groups~="group-20"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-20.group:checked ~ .cell[groups~="group-20"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-20.group:checked ~ .cell[groups~="group-20"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-20.group:checked ~ .cell[groups~="group-20"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-20.group:checked ~ .cell[groups~="group-20"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-21.group:checked ~ .cell[groups~="group-21"] {
+  pointer-events: none;
+}
+#group-21.group:checked ~ .cell[groups~="group-21"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-21.group:checked ~ .cell[groups~="group-21"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-21.group:checked ~ .cell[groups~="group-21"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-21.group:checked ~ .cell[groups~="group-21"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-21.group:checked ~ .cell[groups~="group-21"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-21.group:checked ~ .cell[groups~="group-21"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-21.group:checked ~ .cell[groups~="group-21"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-21.group:checked ~ .cell[groups~="group-21"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-21.group:checked ~ .cell[groups~="group-21"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-22.group:checked ~ .cell[groups~="group-22"] {
+  pointer-events: none;
+}
+#group-22.group:checked ~ .cell[groups~="group-22"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-22.group:checked ~ .cell[groups~="group-22"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-22.group:checked ~ .cell[groups~="group-22"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-22.group:checked ~ .cell[groups~="group-22"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-22.group:checked ~ .cell[groups~="group-22"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-22.group:checked ~ .cell[groups~="group-22"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-22.group:checked ~ .cell[groups~="group-22"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-22.group:checked ~ .cell[groups~="group-22"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-22.group:checked ~ .cell[groups~="group-22"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-23.group:checked ~ .cell[groups~="group-23"] {
+  pointer-events: none;
+}
+#group-23.group:checked ~ .cell[groups~="group-23"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-23.group:checked ~ .cell[groups~="group-23"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-23.group:checked ~ .cell[groups~="group-23"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-23.group:checked ~ .cell[groups~="group-23"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-23.group:checked ~ .cell[groups~="group-23"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-23.group:checked ~ .cell[groups~="group-23"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-23.group:checked ~ .cell[groups~="group-23"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-23.group:checked ~ .cell[groups~="group-23"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-23.group:checked ~ .cell[groups~="group-23"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-24.group:checked ~ .cell[groups~="group-24"] {
+  pointer-events: none;
+}
+#group-24.group:checked ~ .cell[groups~="group-24"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-24.group:checked ~ .cell[groups~="group-24"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-24.group:checked ~ .cell[groups~="group-24"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-24.group:checked ~ .cell[groups~="group-24"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-24.group:checked ~ .cell[groups~="group-24"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-24.group:checked ~ .cell[groups~="group-24"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-24.group:checked ~ .cell[groups~="group-24"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-24.group:checked ~ .cell[groups~="group-24"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-24.group:checked ~ .cell[groups~="group-24"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-25.group:checked ~ .cell[groups~="group-25"] {
+  pointer-events: none;
+}
+#group-25.group:checked ~ .cell[groups~="group-25"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-25.group:checked ~ .cell[groups~="group-25"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-25.group:checked ~ .cell[groups~="group-25"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-25.group:checked ~ .cell[groups~="group-25"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-25.group:checked ~ .cell[groups~="group-25"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-25.group:checked ~ .cell[groups~="group-25"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-25.group:checked ~ .cell[groups~="group-25"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-25.group:checked ~ .cell[groups~="group-25"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-25.group:checked ~ .cell[groups~="group-25"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-26.group:checked ~ .cell[groups~="group-26"] {
+  pointer-events: none;
+}
+#group-26.group:checked ~ .cell[groups~="group-26"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-26.group:checked ~ .cell[groups~="group-26"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-26.group:checked ~ .cell[groups~="group-26"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-26.group:checked ~ .cell[groups~="group-26"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-26.group:checked ~ .cell[groups~="group-26"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-26.group:checked ~ .cell[groups~="group-26"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-26.group:checked ~ .cell[groups~="group-26"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-26.group:checked ~ .cell[groups~="group-26"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-26.group:checked ~ .cell[groups~="group-26"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-27.group:checked ~ .cell[groups~="group-27"] {
+  pointer-events: none;
+}
+#group-27.group:checked ~ .cell[groups~="group-27"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-27.group:checked ~ .cell[groups~="group-27"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-27.group:checked ~ .cell[groups~="group-27"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-27.group:checked ~ .cell[groups~="group-27"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-27.group:checked ~ .cell[groups~="group-27"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-27.group:checked ~ .cell[groups~="group-27"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-27.group:checked ~ .cell[groups~="group-27"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-27.group:checked ~ .cell[groups~="group-27"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-27.group:checked ~ .cell[groups~="group-27"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-28.group:checked ~ .cell[groups~="group-28"] {
+  pointer-events: none;
+}
+#group-28.group:checked ~ .cell[groups~="group-28"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-28.group:checked ~ .cell[groups~="group-28"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-28.group:checked ~ .cell[groups~="group-28"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-28.group:checked ~ .cell[groups~="group-28"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-28.group:checked ~ .cell[groups~="group-28"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-28.group:checked ~ .cell[groups~="group-28"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-28.group:checked ~ .cell[groups~="group-28"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-28.group:checked ~ .cell[groups~="group-28"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-28.group:checked ~ .cell[groups~="group-28"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#group-29.group:checked ~ .cell[groups~="group-29"] {
+  pointer-events: none;
+}
+#group-29.group:checked ~ .cell[groups~="group-29"].mines-0 {
+  background-position: -400% -100%;
+}
+#group-29.group:checked ~ .cell[groups~="group-29"].mines-1 {
+  background-position: 0 -100%;
+}
+#group-29.group:checked ~ .cell[groups~="group-29"].mines-2 {
+  background-position: -100% -100%;
+}
+#group-29.group:checked ~ .cell[groups~="group-29"].mines-3 {
+  background-position: -200% -100%;
+}
+#group-29.group:checked ~ .cell[groups~="group-29"].mines-4 {
+  background-position: -300% -100%;
+}
+#group-29.group:checked ~ .cell[groups~="group-29"].mines-5 {
+  background-position: 0 -200%;
+}
+#group-29.group:checked ~ .cell[groups~="group-29"].mines-6 {
+  background-position: -100% -200%;
+}
+#group-29.group:checked ~ .cell[groups~="group-29"].mines-7 {
+  background-position: -200% -200%;
+}
+#group-29.group:checked ~ .cell[groups~="group-29"].mines-8 {
+  background-position: -200% -300%;
+}
+
+#dead:checked ~ .cell {
+  pointer-events: none;
+}
+
+#dead:checked ~ .cell.mine {
+  background-position: -200% 0px;
+}
+
+</style>
+</head>
+<body>
+<script type="text/javascript">
+var size = 20;
+var minePercent = 18 / 100;
+var board = [];
+//build the board
+for(var y = 0; y < size; y++){
+	board.push(Array(size).fill(0));
+	for(var x = 0; x < size; x++){
+		board[y][x] = {mines: 0, groups: [], isMine: false, x: x, y: y}
+	}
+}
+//add the mines
+for(var mine = 0; mine < size * size * minePercent; mine++){
+	var cell = board[Math.floor(Math.random()*size)][Math.floor(Math.random()*size)]
+
+	// make sure the cell is not a mine
+	if(!cell.isMine){
+		cell.isMine = true;
+		
+		for(var y = -1; y <= 1; y++){
+			if(cell.y + y < size && cell.y + y >= 0){
+				for(var x = -1; x <= 1; x++){
+					//make sure its not outside of the board
+					if(cell.x + x < size && cell.x + x >= 0){
+						board[cell.y + y][cell.x + x].mines++;
+					}
+				}
+			}
+		}
+	}
+}
+// find the groups
+function spreadGroup(cell, group){
+	if(cell.groups.indexOf(group) == -1)
+		cell.groups.push(group);
+
+	if(cell.mines == 0){
+		// if the cell dose not have any mines spread to its neighbors
+		for(var y = -1; y <= 1; y++){
+			for(var x = -1; x <= 1; x++){
+				//make sure its not outside of the board
+				if(cell.x + x < size && cell.x + x >= 0 && cell.y + y < size && cell.y + y >= 0){
+					// make sure the neighbor cell dose not have the group
+					if(board[cell.y + y][cell.x + x].groups.indexOf(group) == -1)
+						spreadGroup(board[cell.y + y][cell.x + x], group)
+				}
+			}
+		}
+	}
+}
+
+var groups = 0;
+for(var y = 0; y < size; y++){
+	for(var x = 0; x < size; x++){
+		var cell = board[y][x]
+		if(cell.mines == 0 && cell.groups.length == 0 && cell.isMine == false){
+			spreadGroup(cell, 'group-'+(groups++))
+		}
+	}
+}
+
+</script>
+<div class="center">
+  <h2>Pure CSS & HTML Minespeeper</h2>
+  <form class="wrapper">
+    <div class="header">
+      <button class="btn reset" type="submit">Reset</button>
+    </div>
+    <div class="board" style="width:480px;height:480px;">
+      <input class="group" id="dead" type="checkbox"/>
+      <input class="group" id="place-flag" type="checkbox"/>
+      <input class="group" type="checkbox" id="group-0"/>
+      <input class="group" type="checkbox" id="group-1"/>
+      <input class="group" type="checkbox" id="group-2"/>
+      <input class="group" type="checkbox" id="group-3"/>
+      <input class="group" type="checkbox" id="group-4"/>
+      <input class="group" type="checkbox" id="group-5"/>
+      <input class="group" type="checkbox" id="group-6"/>
+      <input class="group" type="checkbox" id="group-7"/>
+      <input class="group" type="checkbox" id="group-8"/>
+      <input class="group" type="checkbox" id="group-9"/>
+      <input class="group" type="checkbox" id="group-10"/><br/>
+      <label class="cell mines-0" for="group-0" groups="group-0"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-0"/>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <input class="cell mines-1" type="checkbox" groups=""/>
+      <input class="cell mines-1" type="checkbox" groups=""/>
+      <input class="cell mines-1" type="checkbox" groups=""/>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <input class="cell mines-2" type="checkbox" groups="group-1"/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <input class="cell mines-1" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label><br/>
+      <input class="cell mines-1" type="checkbox" groups="group-0"/>
+      <input class="cell mines-2" type="checkbox" groups="group-0"/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <input class="cell mines-1" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-2" type="checkbox" groups="group-1"/>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <input class="cell mines-3" type="checkbox" groups="group-1"/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-2" type="checkbox" groups="group-2"/>
+      <input class="cell mines-1" type="checkbox" groups="group-2"/>
+      <input class="cell mines-1" type="checkbox" groups="group-2"/><br/>
+      <input class="cell mines-1" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-5" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-3" type="checkbox" groups=""/>
+      <input class="cell mines-2" type="checkbox" groups="group-1"/>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <input class="cell mines-1" type="checkbox" groups="group-2"/>
+      <label class="cell mines-0" for="group-2" groups="group-2"></label>
+      <label class="cell mines-0" for="group-2" groups="group-2"></label><br/>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <input class="cell mines-3" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-3" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <input class="cell mines-1" type="checkbox" groups=""/>
+      <input class="cell mines-1" type="checkbox" groups=""/>
+      <input class="cell mines-1" type="checkbox" groups="group-2"/>
+      <input class="cell mines-1" type="checkbox" groups="group-2"/>
+      <input class="cell mines-1" type="checkbox" groups="group-2"/><br/>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-2" type="checkbox" groups="group-3"/>
+      <input class="cell mines-2" type="checkbox" groups="group-3"/>
+      <input class="cell mines-1" type="checkbox" groups="group-3"/>
+      <input class="cell mines-1" type="checkbox" groups="group-1 group-3"/>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <input class="cell mines-2" type="checkbox" groups="group-1"/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-2" type="checkbox" groups="group-1"/>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <input class="cell mines-1" type="checkbox" groups=""/>
+      <input class="cell mines-1" type="checkbox" groups=""/>
+      <input class="cell mines-1" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-1" type="checkbox" groups=""/><br/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-2" type="checkbox" groups="group-3"/>
+      <input class="cell mines-1" type="checkbox" groups="group-3"/>
+      <label class="cell mines-0" for="group-3" groups="group-3"></label>
+      <label class="cell mines-0" for="group-3" groups="group-3"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-3"/>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <input class="cell mines-3" type="checkbox" groups="group-1"/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-4" type="checkbox" groups="group-1"/>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <input class="cell mines-2" type="checkbox" groups="group-1"/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-3" type="checkbox" groups=""/>
+      <input class="cell mines-3" type="checkbox" groups=""/>
+      <input class="cell mines-3" type="checkbox" groups=""/>
+      <input class="cell mines-3" type="checkbox" groups=""/><br/>
+      <input class="cell mines-1" type="checkbox" groups="group-4"/>
+      <input class="cell mines-1" type="checkbox" groups="group-3 group-4"/>
+      <label class="cell mines-0" for="group-3" groups="group-3"></label>
+      <label class="cell mines-0" for="group-3" groups="group-3"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-3"/>
+      <input class="cell mines-2" type="checkbox" groups="group-3"/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-2" type="checkbox" groups="group-1"/>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <input class="cell mines-3" type="checkbox" groups="group-1"/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <input class="cell mines-4" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <label class="cell mine" for="dead" groups=""></label><br/>
+      <label class="cell mines-0" for="group-4" groups="group-4"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-3 group-4"/>
+      <input class="cell mines-2" type="checkbox" groups="group-3"/>
+      <input class="cell mines-2" type="checkbox" groups="group-3"/>
+      <input class="cell mines-2" type="checkbox" groups="group-3"/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-3" type="checkbox" groups=""/>
+      <input class="cell mines-2" type="checkbox" groups="group-1"/>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <input class="cell mines-2" type="checkbox" groups="group-1"/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-3" type="checkbox" groups=""/>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-3" type="checkbox" groups="group-5"/>
+      <input class="cell mines-2" type="checkbox" groups="group-5"/>
+      <input class="cell mines-2" type="checkbox" groups="group-5"/>
+      <input class="cell mines-2" type="checkbox" groups="group-5"/><br/>
+      <label class="cell mines-0" for="group-4" groups="group-4"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-4"/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <input class="cell mines-2" type="checkbox" groups="group-1"/>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <input class="cell mines-1" type="checkbox" groups="group-6"/>
+      <input class="cell mines-1" type="checkbox" groups="group-6"/>
+      <input class="cell mines-2" type="checkbox" groups="group-6"/>
+      <input class="cell mines-2" type="checkbox" groups="group-6"/>
+      <input class="cell mines-1" type="checkbox" groups="group-5 group-6"/>
+      <label class="cell mines-0" for="group-5" groups="group-5"></label>
+      <label class="cell mines-0" for="group-5" groups="group-5"></label>
+      <label class="cell mines-0" for="group-5" groups="group-5"></label><br/>
+      <label class="cell mines-0" for="group-4" groups="group-4"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-4"/>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <input class="cell mines-2" type="checkbox" groups="group-1"/>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <input class="cell mines-1" type="checkbox" groups="group-6"/>
+      <label class="cell mines-0" for="group-6" groups="group-6"></label>
+      <label class="cell mines-0" for="group-6" groups="group-6"></label>
+      <label class="cell mines-0" for="group-6" groups="group-6"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-5 group-6"/>
+      <input class="cell mines-1" type="checkbox" groups="group-5"/>
+      <input class="cell mines-1" type="checkbox" groups="group-5"/>
+      <label class="cell mines-0" for="group-5" groups="group-5"></label><br/>
+      <label class="cell mines-0" for="group-4" groups="group-4"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-4"/>
+      <input class="cell mines-1" type="checkbox" groups=""/>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <input class="cell mines-2" type="checkbox" groups="group-1"/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-2" type="checkbox" groups="group-6"/>
+      <input class="cell mines-2" type="checkbox" groups="group-6"/>
+      <input class="cell mines-1" type="checkbox" groups="group-6"/>
+      <input class="cell mines-1" type="checkbox" groups="group-6"/>
+      <input class="cell mines-1" type="checkbox" groups="group-6"/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-1" type="checkbox" groups="group-5"/>
+      <label class="cell mines-0" for="group-5" groups="group-5"></label><br/>
+      <label class="cell mines-0" for="group-4" groups="group-4"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-4"/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <input class="cell mines-1" type="checkbox" groups="group-5"/>
+      <input class="cell mines-1" type="checkbox" groups="group-5"/>
+      <label class="cell mines-0" for="group-5" groups="group-5"></label><br/>
+      <input class="cell mines-2" type="checkbox" groups="group-4"/>
+      <input class="cell mines-3" type="checkbox" groups="group-4"/>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <input class="cell mines-1" type="checkbox" groups=""/>
+      <input class="cell mines-1" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <label class="cell mines-0" for="group-1" groups="group-1"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <input class="cell mines-1" type="checkbox" groups="group-1 group-7"/>
+      <input class="cell mines-1" type="checkbox" groups="group-7"/>
+      <input class="cell mines-1" type="checkbox" groups="group-7"/>
+      <input class="cell mines-2" type="checkbox" groups="group-7"/>
+      <input class="cell mines-2" type="checkbox" groups="group-7"/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <input class="cell mines-1" type="checkbox" groups="group-5"/>
+      <label class="cell mines-0" for="group-5" groups="group-5"></label>
+      <label class="cell mines-0" for="group-5" groups="group-5"></label><br/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-3" type="checkbox" groups=""/>
+      <input class="cell mines-1" type="checkbox" groups=""/>
+      <input class="cell mines-2" type="checkbox" groups="group-8"/>
+      <input class="cell mines-1" type="checkbox" groups="group-8"/>
+      <input class="cell mines-2" type="checkbox" groups="group-1 group-8"/>
+      <input class="cell mines-1" type="checkbox" groups="group-1"/>
+      <input class="cell mines-2" type="checkbox" groups="group-1"/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-1" type="checkbox" groups="group-7"/>
+      <label class="cell mines-0" for="group-7" groups="group-7"></label>
+      <label class="cell mines-0" for="group-7" groups="group-7"></label>
+      <label class="cell mines-0" for="group-7" groups="group-7"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-7"/>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-1" type="checkbox" groups="group-5"/>
+      <label class="cell mines-0" for="group-5" groups="group-5"></label>
+      <label class="cell mines-0" for="group-5" groups="group-5"></label><br/>
+      <input class="cell mines-4" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-3" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-1" type="checkbox" groups="group-8"/>
+      <label class="cell mines-0" for="group-8" groups="group-8"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-8"/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <input class="cell mines-1" type="checkbox" groups=""/>
+      <input class="cell mines-2" type="checkbox" groups="group-7"/>
+      <input class="cell mines-1" type="checkbox" groups="group-7"/>
+      <input class="cell mines-2" type="checkbox" groups="group-7"/>
+      <input class="cell mines-1" type="checkbox" groups="group-7"/>
+      <input class="cell mines-1" type="checkbox" groups="group-7 group-9"/>
+      <input class="cell mines-1" type="checkbox" groups="group-9"/>
+      <input class="cell mines-1" type="checkbox" groups="group-9"/>
+      <input class="cell mines-1" type="checkbox" groups="group-5 group-9"/>
+      <input class="cell mines-1" type="checkbox" groups="group-5 group-9"/>
+      <input class="cell mines-1" type="checkbox" groups="group-5"/><br/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-3" type="checkbox" groups=""/>
+      <input class="cell mines-4" type="checkbox" groups=""/>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <input class="cell mines-2" type="checkbox" groups="group-8"/>
+      <label class="cell mines-0" for="group-8" groups="group-8"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-8"/>
+      <input class="cell mines-2" type="checkbox" groups="group-8"/>
+      <input class="cell mines-3" type="checkbox" groups=""/>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-1" type="checkbox" groups="group-9"/>
+      <label class="cell mines-0" for="group-9" groups="group-9"></label>
+      <label class="cell mines-0" for="group-9" groups="group-9"></label>
+      <label class="cell mines-0" for="group-9" groups="group-9"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-9"/>
+      <label class="cell mine" for="dead" groups=""></label><br/>
+      <input class="cell mines-3" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-3" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-1" type="checkbox" groups="group-8"/>
+      <label class="cell mines-0" for="group-8" groups="group-8"></label>
+      <label class="cell mines-0" for="group-8" groups="group-8"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-8"/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-2" type="checkbox" groups="group-10"/>
+      <input class="cell mines-1" type="checkbox" groups="group-10"/>
+      <input class="cell mines-2" type="checkbox" groups="group-10"/>
+      <input class="cell mines-2" type="checkbox" groups="group-10"/>
+      <input class="cell mines-2" type="checkbox" groups="group-9"/>
+      <input class="cell mines-1" type="checkbox" groups="group-9"/>
+      <label class="cell mines-0" for="group-9" groups="group-9"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-9"/>
+      <input class="cell mines-2" type="checkbox" groups="group-9"/>
+      <input class="cell mines-2" type="checkbox" groups=""/><br/>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-3" type="checkbox" groups="group-8"/>
+      <input class="cell mines-1" type="checkbox" groups="group-8"/>
+      <input class="cell mines-1" type="checkbox" groups="group-8"/>
+      <label class="cell mines-0" for="group-8" groups="group-8"></label>
+      <label class="cell mines-0" for="group-8" groups="group-8"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-8"/>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <input class="cell mines-1" type="checkbox" groups="group-10"/>
+      <label class="cell mines-0" for="group-10" groups="group-10"></label>
+      <label class="cell mines-0" for="group-10" groups="group-10"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-10"/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-3" type="checkbox" groups="group-9"/>
+      <input class="cell mines-2" type="checkbox" groups="group-9"/>
+      <input class="cell mines-2" type="checkbox" groups="group-9"/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-1" type="checkbox" groups=""/><br/>
+      <input class="cell mines-1" type="checkbox" groups="group-8"/>
+      <input class="cell mines-1" type="checkbox" groups="group-8"/>
+      <input class="cell mines-1" type="checkbox" groups="group-8"/>
+      <label class="cell mines-0" for="group-8" groups="group-8"></label>
+      <label class="cell mines-0" for="group-8" groups="group-8"></label>
+      <label class="cell mines-0" for="group-8" groups="group-8"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-8"/>
+      <input class="cell mines-2" type="checkbox" groups="group-8"/>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <input class="cell mines-1" type="checkbox" groups=""/>
+      <input class="cell mines-1" type="checkbox" groups="group-10"/>
+      <input class="cell mines-1" type="checkbox" groups="group-10"/>
+      <input class="cell mines-1" type="checkbox" groups="group-10"/>
+      <input class="cell mines-2" type="checkbox" groups="group-10"/>
+      <input class="cell mines-3" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-4" type="checkbox" groups=""/>
+      <input class="cell mines-2" type="checkbox" groups=""/>
+      <input class="cell mines-2" type="checkbox" groups=""/><br/>
+      <label class="cell mines-0" for="group-8" groups="group-8"></label>
+      <label class="cell mines-0" for="group-8" groups="group-8"></label>
+      <label class="cell mines-0" for="group-8" groups="group-8"></label>
+      <label class="cell mines-0" for="group-8" groups="group-8"></label>
+      <label class="cell mines-0" for="group-8" groups="group-8"></label>
+      <label class="cell mines-0" for="group-8" groups="group-8"></label>
+      <input class="cell mines-1" type="checkbox" groups="group-8"/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-1" type="checkbox" groups=""/>
+      <input class="cell mines-1" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-1" type="checkbox" groups=""/>
+      <input class="cell mines-1" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-4" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-3" type="checkbox" groups=""/>
+      <label class="cell mine" for="dead" groups=""></label>
+      <input class="cell mines-1" type="checkbox" groups=""/>
+    </div>
+  </form>
+  <h4>created by rdfriedl</h4>
+</div>
+</body>
+</html>

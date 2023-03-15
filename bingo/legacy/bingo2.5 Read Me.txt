@@ -1,0 +1,7 @@
+Color Selection working
+applied theme to it
+started moving buttons (not finished)
+still working on theme for the selection color
+
+
+Currently trying to get the border for the selection icon to match color for hex color chosen

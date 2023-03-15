@@ -1,0 +1,284 @@
+img { display: inline-block }
+
+#wrapper {
+  position: relative;
+  display: flex;
+ 
+}
+#gameBody {
+  position: absoulte;
+  width: 180;
+  height: 200;
+  z-index: 1;
+  flex: 3;
+}
+#spaceBoard {
+  top: -61px;
+  height: 450px;
+  flex: 1;
+  float: left;
+}
+#minesLeft {float: left }
+#face {display: inline}
+#timeElapsed {float: right}
+#mineButtons {float: center;}
+#can {
+  pointer-events:none;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 3;
+}
+#spaceDifficulty {
+  position: relative;
+  float: right;
+  top: -305px;
+  left: -24px;
+}
+#spaceMines {
+  position: relative;
+  float: left;
+  top: -219px;
+  left: 29px;
+}
+#spaceTime {
+  position: relative;
+  float: right;
+  top: -261px;
+  left: -3px;
+}
+#scoreOne {
+  position: relative;
+  pointer-events:none;
+  float: left;
+  top: -38px;
+  left: -12px;
+}
+#scoreTwo {
+  position: relative;
+  float: left;
+  top: -38px;
+  left: 4px;
+}
+#scoreThree {
+  position: relative;
+  top: -57px;
+  float: right;
+  right: 21px;
+}
+#spaceFace {
+  position: relative;
+  z-index: 6;
+  float: right;
+  bottom: 402px;
+  right: 6px;
+}
+#spaceMsg {
+  position: relative;
+  float: left;
+  top: 6px;
+  left: 6px;
+  width: 176px;
+  
+}
+#Message {
+  position: relative;
+  float: right;
+  height: 103px;
+  width: 184px;
+  bottom: 244px;
+  right: 13px;
+  min-height: 103px;
+}
+#win {
+  position: relative;
+  float: left;
+  top: 7px;
+  left: 6px;
+}
+#lost {
+  position: relative;
+  float: left;
+  top: 13px;
+  left: 6px;
+}
+#wCount {
+  position: relative;
+  float: right;
+  top: 7px;
+  right: 4px;
+}
+#lCount {
+  position: relative;
+  float: right;
+  top: 13px;
+  right: 4px;
+}
+#spaceShip {
+  width: 150px;
+  height: 100px;
+  position: relative;
+  z-index: 5;
+  bottom: 563px;
+  float: right;
+  right: 7px;
+  animation: nothing 2s;
+  animation-fill-mode: forwards;
+}
+#Planet {
+	position: relative;
+	float: left;
+	height: 114px;
+	width: 130px;
+	bottom: 621px;
+	right: 16px;
+	display: inline;
+	pointer-events: none;
+}
+
+@keyframes nothing {
+}
+
+@keyframes spaceFlight {
+    from {bottom: 563px; right: 7px}
+    to {bottom: 350px; right: 450px}
+}
+@keyframes spaceFlight1 {
+    from {bottom: 563px; right: 7px}
+    to {bottom: 350px; right: 700px}
+}
+@keyframes spaceFlight2 {
+    from {bottom: 563px; right: 7px}
+    to {bottom: 350px; right: 900px}
+}
+@keyframes spaceFlight3 {
+    from {bottom: 563px; right: 7px}
+    to {bottom: 350px; right: 2450px}
+}
+
+/* Dropdown Button */ 
+.dropbtn { 
+   background-color: #ece9d8;
+   color: Black;
+   #padding: 1px;
+   font-size: 12px;
+   border: none;
+   cursor: pointer; 
+   position: relative;
+   font-family: Segoe UI;
+   padding-top: 2.5px;
+}
+.dropbtn:hover, .dropbtn:focus {
+   background-color: #dad4b4;
+}
+.dropdown {
+   position: absolute;
+   display: inline-block;
+   left: 4px;
+   top: 31.5px;
+}
+.dropdown-content {
+   display: none;
+   position: absolute;
+   background-color: white;
+   min-width: 100px;
+   max-width: 160px;
+   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); 
+   z-index: 1;
+   left: 1px;
+
+} 
+.dropdown-content a {
+   color: black;
+   #padding: 2px 2px;
+   text-decoration: none;
+   display: block;
+   font-family: "Segoe UI";
+}
+.dropdown-content a:hover {
+   background-color: #215fc6;
+   color: white;
+}
+.show {display:block;}
+
+.dropbtn2 { 
+   background-color: #ece9d8;
+   color: Black;
+   #padding: 1px;
+   font-size: 12px;
+   border: none;
+   cursor: pointer; 
+   position: relative;
+   font-family: Segoe UI;
+   padding-top: 2.5px;
+   
+}
+.dropbtn2:hover, .dropbtn2:focus {
+   background-color: #dad4b4;
+}
+.dropdown2 {
+   position: absolute;
+   display: inline-block;
+   left: 4px;
+   top: 31.5px;
+   left: 42.5px;
+}
+.dropdown-content2 {
+   display: none;
+   position: absolute;
+   background-color: white;
+   min-width: 100px;
+   max-width: 160px;
+   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); 
+   z-index: 1;
+   left: 1px;
+
+} 
+.dropdown-content a2 {
+   color: black;
+   #padding: 2px 2px;
+   text-decoration: none;
+   display: block;
+   font-family: "Segoe UI";
+}
+.dropdown-content a2:hover {
+   background-color: #215fc6;
+   color: white;
+}
+
+.show2 {display:block;}
+
+.exitbtn {
+    border: 0px;
+    padding: 0px;
+    position: absolute;
+    top: 8px;
+}
+
+.close {
+    float:right;
+    font-size:21px;
+    font-weight:700;
+    line-height:1;
+    color:#000;
+    text-shadow:0 1px 0 #fff;
+    filter:alpha(opacity=20);
+    opacity:.2;
+    cursor: pointer; 
+}
+
+.btnclose {
+cursor: pointer;
+}
+
+.btnX {
+cursor: pointer;
+float:right;
+font-size:21px;
+font-weight:700;
+    line-height:1;
+    color:#000;
+    text-shadow:0 1px 0 #fff;
+    filter:alpha(opacity=20);
+    opacity:.2;    
+}

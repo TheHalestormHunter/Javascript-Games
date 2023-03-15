@@ -1,0 +1,83 @@
+the entires in the bingoboard
+bingoBoard (array that tracks selected/unselected entries)
+color settings
+num of bingos (to track blackouts)
+
+objects to save by name
+
+bingoBoard
+bingoData
+
+
+
+
+how to work around the strings only issue ex
+
+var car = {};
+car.wheels = 4;
+car.doors = 2;
+car.sound = 'vroom';
+car.name = 'Lightning McQueen';
+console.log( car );
+localStorage.setItem( 'car', JSON.stringify(car) );
+console.log( JSON.parse( localStorage.getItem( 'car' ) ) );
+
+
+in console if you type for example 
+localStorage.setItem(bingoBoard,bingoBoard);
+then 
+localStorage.getItem(bingoBoard)
+you get
+"0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,1,0,0"
+this has the 3 of the bottom rows selected
+everytime you click a new one it seems to reset the getItem for that so
+onClick=localStorage.setItem(bingBoard,bingoBoard) (or similar)
+would be the best way to proceed with that now we just need a way to push that to the actual board 
+on load
+
+here is the w3 schools example for applying that localstorage and a second one below this
+<!DOCTYPE html>
+<html>
+<body>
+
+<div id="result"></div>
+
+<script>
+// Check browser support
+if (typeof(Storage) !== "undefined") {
+    // Store
+    localStorage.setItem("lastname", "Smith");
+    // Retrieve
+    document.getElementById("result").innerHTML = localStorage.getItem("lastname");
+} else {
+    document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
+}
+</script>
+
+</body>
+</html>
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<div id="result"></div>
+
+<script>
+// Check browser support
+if (typeof(Storage) !== "undefined") {
+    // Store
+    localStorage.setItem("lastname", "Smith");
+    // Retrieve
+    document.getElementById("result").innerHTML = localStorage.getItem("lastname");
+} else {
+    document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>title</title>
+  </head>
+  <body>
+  
+  <script type="text/javascript">
+  var difficulty;
+  if(typeof(Storage) != null) {
+    difficulty = localStorage.getItem("difficulty");
+    if(difficulty == null) {
+      difficulty = 1;
+      localStorage.setItem("difficulty",1);
+    }
+  } else difficulty = 1;
+     parseInt(difficulty);
+     function autorun(){
+       if(difficulty==0)
+         window.open("//mhvfs01/TechSupport/Professional Support/Travis/archive/minesweeper/minesweeper.html", " ", "titlebar=0, status=0, menubar=0, width=206, height=289, top=870, left=2275");
+       if(difficulty==1)
+         window.open("//mhvfs01/TechSupport/Professional Support/Travis/archive/minesweeper/minesweeper.html", " ", "titlebar=0, status=0, menubar=0, width=346, height=429, top=870, left=2275");
+       if(difficulty==2)
+         window.open("//mhvfs01/TechSupport/Professional Support/Travis/archive/minesweeper/minesweeper.html", " ", "titlebar=0, status=0, menubar=0, width=646, height=429, top=870, left=2275");
+       if(difficulty==3)
+         window.open("//mhvfs01/TechSupport/Professional Support/Travis/archive/minesweeper/minesweeper.html", " ", "titlebar=0, status=0, menubar=0, width=646, height=429, top=870, left=2275");         
+       window.close();
+}
+
+autorun();
+  </script>
+  </body>
+</html>

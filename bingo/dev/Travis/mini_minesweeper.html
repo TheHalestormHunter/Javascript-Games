@@ -1,0 +1,150 @@
+<html>
+<head>
+<title>Minimalistic Minesweeper</title>
+<script type="text/javascript">
+var difficulty = 1;
+
+var boardWidth = [9,16,24][difficulty];
+var boardHeight = [9,16,24][difficulty];
+var numMines = [10,40,99][difficulty];
+
+var boardSize = boardWidth*boardHeight;
+
+var mineArray = new Array(boardSize);
+mineArray.fill(0);
+
+var checked = new Array(boardSize);
+checked.fill(0);
+
+var firstClick = true;
+
+
+function neighborsOf(arrayID) {
+  output = [];
+  //row above, left to right
+  if(arrayID >= boardWidth) {
+    if(arrayID%boardWidth != 0) output.push(arrayID-boardWidth-1);
+    output.push(arrayID-boardWidth);
+    if((arrayID+1)%boardWidth != 0) output.push(arrayID-boardWidth+1);
+  }
+  //current row, left then right
+  if(arrayID%boardWidth != 0) output.push(arrayID-1);
+  if((arrayID+1)%boardWidth != 0) output.push(arrayID+1);
+  //row below, left to right
+  if(arrayID < boardWidth*(boardHeight-1)) {
+    if(arrayID%boardWidth != 0) output.push(arrayID+boardWidth-1);
+    output.push(arrayID+boardWidth);
+    if((arrayID+1)%boardWidth != 0) output.push(arrayID+boardWidth+1);
+  }
+  return output;
+}
+
+function randomizeBoard(mineId) {
+  console.log("Randomizing board");
+  var randNumber;
+  var neighbors = neighborsOf(mineId);
+  neighbors.push(mineId);
+  while(mineArray.reduce(function f(x,y){return x+y}) < numMines) {
+    randNumber = Math.trunc(boardSize*Math.random());
+    if(!mineArray[randNumber] && neighbors.indexOf(randNumber) == -1) mineArray[randNumber]=1;
+  }
+}
+
+function onLoad() {
+  window.oncontextmenu = function() {return false}; //disable right-click menu
+  var newButton, mineId;
+  for(i=0; i<boardHeight; i++) {
+    for(j=0; j<boardWidth; j++) {
+      newButton = document.createElement("img");
+      newButton.src = "tiles/blank.jpg";
+      newButton.flagged = 0;
+      mineId = i*boardHeight+j;
+      newButton.id = mineId;
+      newButton.className = "unrevealed";
+      newButton.onmouseup = function(e) { 
+        switch(e.which) {
+          case 1: if(e.target.className=="unrevealed") {check(e.target, 0)} else {check(e.target, -1)}; break;
+          case 2: check(e.target, -1); break;
+          case 3:
+            if(!checked[e.target.id]) {
+              e.target.src = e.target.flagged ? "tiles/blank.jpg" : "tiles/flag.jpg";
+              e.target.flagged = e.target.flagged ? 0 : 1;
+            }
+            break;
+        }
+      };
+      document.body.appendChild(newButton);
+    }
+    document.body.appendChild(document.createElement("br"));
+  }
+}
+
+function sumMines(mineId) {
+  var sum = 0;
+  var neighbors = neighborsOf(mineId);
+  for(var i=0; i<neighbors.length; i++)
+    sum += mineArray[neighbors[i]];
+  return sum;
+}
+
+function check(mineButton, depth) {
+  var mineId = parseInt(mineButton.id);
+
+  if(firstClick) {
+    console.log("First click!");
+    randomizeBoard(mineId);
+    firstClick = false;
+  }
+
+  if(mineButton.flagged) return; //flagged mine protection
+
+  if(depth<0) { //middle click or click on revealed square
+    var neighbors = neighborsOf(mineId);
+    var numFlags = 0;
+    for(var i=0; i<neighbors.length; i++)
+      numFlags += (document.getElementById(neighbors[i]).flagged);
+    if(numFlags == mineButton.className) //check if number of flags equals sum of mines
+      for(var i=0; i<neighbors.length; i++)
+         check(document.getElementById(neighbors[i]), 0);
+    return;
+  }
+
+  if(checked[mineId])
+    return mineArray[mineId];
+  checked[mineId]++;
+  if(mineArray[mineId]) {
+    if(depth == 0) showMines();
+    return 1;
+  } else if(!mineArray[mineId]){
+    var numMines = sumMines(mineId);
+    var neighbors = neighborsOf(mineId);
+    if(numMines == 0) 
+      for(var i=0; i<neighbors.length; i++)
+        check(document.getElementById(neighbors[i]), depth+1);
+    mineButton.src = "tiles/"+numMines+".jpg";
+    mineButton.className = numMines; //this line is to help middle click logic
+    return 0;
+  }
+}
+
+
+function numFlags() {
+  var sum=0;
+  for(var i=0; i<boardSize; i++)
+    sum+=document.getElementById(i).flagged;
+  return sum;
+}
+
+function showMines() {
+  for(var i=0; i<boardSize; i++)
+    if(mineArray[i])
+      document.getElementById(i).src = "tiles/bomb.jpg";
+}
+
+</script>
+</head>
+
+<body onload="onLoad();">
+</body>
+
+</html>

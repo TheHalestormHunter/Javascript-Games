@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TetDrop</title>
+	<style>
+		body {
+			background: #202028;
+			color: #fff;
+			font-family: sans-serif;
+			font-size: 1.5em;
+			text-align: center;
+			height: 20vh;
+		}
+		canvas {
+			border: solid .1em white;
+			background: #000;
+		}
+		.right {
+			float: right;
+		}
+		.indent {
+			margin-right: 13px;
+		}
+		.wBorder {
+			border: solid .1em white;
+			background: #000;
+		}
+		#swap {
+			margin-top: 3px;
+			margin-bottom: 3px;
+		}
+		#wrapper {
+			position: absolute;
+			width: 350px;
+			height: 20vh;
+		}
+		#title {
+			float: left;
+			width: 240px;
+		}
+		#text {
+			margin-right: 19px;
+		}
+		#tetris {
+			float: left;
+		}
+		#score, #lines, #level {
+			width: 80px;
+			margin-top: 3px;
+			margin-bottom: 3px;
+		}
+	</style>
+</head>
+<body onload='startScreen()'>
+	<div id='wrapper'>
+		<div id='text'>
+			<div id='title'>TetDrop</div>
+			<div id='block' class='right'>Next</div>
+		</div>
+		<canvas id='tetris' width='240' height='400'></canvas>
+		<canvas id='next' class='right' width = '80' height='80'></canvas>
+		<div id='swap' class='right indent'>Swap</div>
+		<canvas id='hold' class='right' width = '80' height='80'></canvas>
+		<div id='leText' class='right indent'>Level</div>
+		<div id='level' class='right wBorder'></div>
+		<div id='lText' class='right indent'>Lines</div>
+		<div id='lines' class='right wBorder'></div>
+		<div id='sText' class='right indent'>Score</div>
+		<div id='score' class='right wBorder'></div>
+	</div>
+
+		
+	<script src='drop3.js'></script>
+</body>
+</html>

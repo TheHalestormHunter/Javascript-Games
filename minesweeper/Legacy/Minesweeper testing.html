@@ -1,0 +1,481 @@
+<!--Travis-->
+<html>
+<head>
+<style type="text/css">
+img { display: inline-block }
+//div { border: double }
+#gameBody {width: 180; height: 200}
+#minesLeft {float: left }
+#face {display: inline}
+#timeElapsed {float: right}
+#mineButtons {float: center;}
+/* Dropdown Button */	
+.dropbtn {	
+   background-color: #ece9d8;
+   color: Black;
+   #padding: 1px;
+   font-size: 12px;
+   border: none;
+   cursor: pointer;	
+   position: relative;
+   #left: -11px;
+   #top: -247.5px;
+   font-family: Segoe UI;
+   padding-top: 2.5px;
+}
+.dropbtn:hover, .dropbtn:focus {
+   background-color: #dad4b4;
+}
+.dropdown {
+   position: absolute;
+   display: inline-block;
+   left: 4px;
+   top: 31.5px;
+}
+.dropdown-content {
+   display: none;
+   position: absolute;
+   background-color: white;
+   min-width: 100px;
+   max-width: 160px;
+   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);	
+   z-index: 1;
+   left: 1px;
+
+}	
+.dropdown-content a {
+   color: black;
+   #padding: 2px 2px;
+   text-decoration: none;
+   display: block;
+   font-family: "Segoe UI";
+}
+.dropdown-content a:hover {
+   background-color: #215fc6;
+   color: white;
+}
+.show {display:block;}
+
+</style>
+<title>Minesweeper</title>
+<script type="text/javascript">
+var difficulty;
+var color;
+
+if(typeof(Storage) != null) {
+  difficulty = localStorage.getItem("difficulty");
+  if(difficulty == null) {
+    difficulty = 2;
+    localStorage.setItem("difficulty",2);
+  }
+  color = localStorage.getItem("color");
+  if(color == null) {
+    color = 1;
+    localStorage.setItem("color",1);
+  }
+} else {
+    difficulty = 1;
+    color = 1;
+}
+
+var boardWidth = [9,16,31][difficulty];
+var boardHeight = [9,16,16][difficulty];
+var numMines = [10,40,99][difficulty];
+var numFlags = 0;
+var boardSize = boardWidth*boardHeight;
+var facePosition = [9,78,238][difficulty];
+var currentTime = 0;
+var mineArray = new Array(boardSize);
+mineArray.fill(0);
+
+var checked = new Array(boardSize);
+checked.fill(0);
+
+var firstClick = true;
+var stopCounting = false;
+var currentCounterID;
+var gameOn = true;
+var gamePause = false;
+
+function neighborsOf(arrayID) {
+  output = [];
+  //row above, left to right
+  if(arrayID >= boardWidth) {
+    if(arrayID%boardWidth != 0) output.push(arrayID-boardWidth-1);
+    output.push(arrayID-boardWidth);
+    if((arrayID+1)%boardWidth != 0) output.push(arrayID-boardWidth+1);
+  }
+  //current row, left then right
+  if(arrayID%boardWidth != 0) output.push(arrayID-1);
+  if((arrayID+1)%boardWidth != 0) output.push(arrayID+1);
+  //row below, left to right
+  if(arrayID < boardWidth*(boardHeight-1)) {
+    if(arrayID%boardWidth != 0) output.push(arrayID+boardWidth-1);
+    output.push(arrayID+boardWidth);
+    if((arrayID+1)%boardWidth != 0) output.push(arrayID+boardWidth+1);
+  }
+  return output;
+}
+
+function randomizeBoard(mineId) {
+  console.log("Randomizing board");
+  var randNumber;
+  var neighbors = neighborsOf(mineId);
+  neighbors.push(mineId);
+  while(mineArray.reduce(function f(x,y){return x+y}) < numMines) {
+    randNumber = Math.trunc(boardSize*Math.random());
+    if(!mineArray[randNumber] && neighbors.indexOf(randNumber) == -1) mineArray[randNumber]=1;
+  }
+}
+
+function onLoad() {
+  window.onblur = function(e){
+    gamePause = true;
+    document.getElementById("f0").src = "face/clock.png";
+    stopCounting = stopCounting? false:true;
+    for(var i=0; i<boardSize; i++)
+      document.getElementById(i).src = "tiles/"+"PAUSED000"[i%9]+".png";
+  };
+  window.onkeydown = function(e) {
+    switch(e.key) {
+      case "1": localStorage.setItem("difficulty",0); location.reload(); break;
+      case "2": localStorage.setItem("difficulty",1); location.reload(); break;
+      case "3": localStorage.setItem("difficulty",2); location.reload(); break;
+      case "r": location.reload(); break;
+      case "p": 
+        if(gameOn){
+          gamePause = false;
+          document.getElementById("f0").src = "face/smile.png";
+          stopCounting = stopCounting? false:true;
+            if(!stopCounting){
+              updateTimer();
+              for(var i=0; i<boardSize; i++){
+                 var mineButton = document.getElementById(i);
+                 if(mineButton.className == "unrevealed"){
+                   if(mineButton.flagged){
+                   mineButton.src = "tiles/flag.png";
+                   } else mineButton.src = "tiles/blank.png";
+                 } else mineButton.src = "tiles/"+mineButton.className+".png";
+              }
+            } else {
+              gamePause = true;
+              clearTimeout(currentCounterID);
+              document.getElementById("f0").src = "face/clock.png";
+              for(var i=0; i<boardSize; i++)
+                document.getElementById(i).src = "tiles/"+"PAUSED000"[i%9]+".png";
+          } break;
+        }
+      }
+    }
+  document.body.style.backgroundImage = "url('border/"+ (difficulty) + ".png')";
+  document.getElementById("gameBody").style.width = boardWidth * 20;
+  document.getElementById("face").style["padding-left"] = facePosition + "px";
+  for(var i=0; i<3; i++) document.getElementById("t" + i).src = "counter/" + color + "/0.png";
+  divMineButtons = document.getElementById("mineButtons");
+  window.oncontextmenu = function() {return false}; //disable right-click menu
+  document.addEventListener("dragstart", function(e) {
+    if(!stopCounting){
+      if(e.target.flagged == 1){
+        e.target.src = "tiles/flag.png";
+      } else {
+          if(gamePause) document.getElementById("f0").src = "face/clock.png";
+          if(!gamePause) document.getElementById("f0").src = "face/smile.png";
+        if(e.target.className == "unrevealed") e.target.src = "tiles/blank.png";
+        }
+      }
+    });
+  var newButton, mineId;
+  document.body.appendChild(document.createElement("br"));
+  for(var i=0; i<boardHeight; i++) {
+    for(var j=0; j<boardWidth; j++) {
+      newButton = document.createElement("img");
+      newButton.src = "tiles/blank.png";
+      newButton.flagged = 0;
+      newButton.draggable = "true";
+      mineId = i*boardWidth+j;
+      newButton.id = mineId;
+      newButton.className = "unrevealed";
+      document.body.onmousedown = function(e) { if (e.button === 1) return false; }
+      newButton.onmousedown = function(e) { 
+       	if(gameOn)
+        if(!stopCounting)
+          switch(e.which) {
+            case 1: if(e.target.className=="unrevealed" && e.target.flagged == 0) {e.target.src = "tiles/depressed.png"; document.getElementById("f0").src = "face/O.png";} break;
+            case 2: var neighbors = neighborsOf(parseInt(e.target.id)); neighbors.push(e.target.id);
+              for(var i=0; i<neighbors.length; i++){
+                neighbor = document.getElementById(neighbors[i]);
+                if(neighbor.className =="unrevealed" && neighbor.flagged == 0) {neighbor.src = "tiles/depressed.png"; document.getElementById("f0").src = "face/O.png";}} break;
+            case 3: break;         
+          }
+      }
+      newButton.onmouseup = function(e) { 
+        if(gamePause) document.getElementById("f0").src = "face/clock.png";
+        if(!gamePause) document.getElementById("f0").src = "face/smile.png";
+        if(!gameOn) document.getElementById("f0").src = "face/lose.png";
+        if(gameOn)
+        if(!stopCounting)
+          switch(e.which) {
+            case 1: if(e.target.className=="unrevealed") {check(e.target, 0)} else {check(e.target, -1)}; break;
+            case 2: 
+	          var neighbors = neighborsOf(parseInt(e.target.id));
+		  neighbors.push(e.target.id);
+                  for(var i=0; i<neighbors.length; i++){
+                    var neighbor = document.getElementById(neighbors[i]);
+                    if(neighbor.className == "unrevealed" && neighbor.flagged == 0)
+		      neighbor.src = "tiles/blank.png";
+		  }
+		  check(e.target, -1);
+		  break;
+            case 3:
+              if(!checked[e.target.id]) {
+                e.target.src = e.target.flagged ? "tiles/blank.png" : "tiles/flag.png";
+                e.target.flagged = e.target.flagged ? 0 : 1;
+                numFlags += e.target.flagged ? 1 : -1;
+                updateMinesLeft();
+              } break;
+           }
+      }
+      newButton.onmouseleave = function(e) {
+	   // if(!stopCounting)
+	      if(e.which == 2){
+            var neighbors = neighborsOf(parseInt(e.target.id)); neighbors.push(e.target.id);
+            document.getElementById("f0").src = "face/smile.png";
+            for(var i=0; i<neighbors.length; i++){
+              neighbor = document.getElementById(neighbors[i]);
+              if(neighbor.className == "unrevealed") {neighbor.src = "tiles/blank.png";}
+              if(neighbor.flagged) neighbor.src = "tiles/flag.png";
+             }
+          }
+      }
+      newButton.onmouseenter = function(e) {
+	    //if(!stopCounting)
+		  if(e.which == 2){
+          var neighbors = neighborsOf(parseInt(e.target.id)); neighbors.push(e.target.id);
+          document.getElementById("f0").src = "face/O.png";
+          for(var i=0; i<neighbors.length; i++){
+            neighbor = document.getElementById(neighbors[i]);
+            if(neighbor.className == "unrevealed") {neighbor.src = "tiles/depressed.png";}
+            if(neighbor.flagged) neighbor.src = "tiles/flag.png";
+          }
+        }
+      }
+      divMineButtons.appendChild(newButton);
+    }
+    divMineButtons.appendChild(document.createElement("br"));
+  }
+
+  updateMinesLeft();
+}
+
+function sumMines(mineId) {
+  var sum = 0;
+  var neighbors = neighborsOf(mineId);
+  for(var i=0; i<neighbors.length; i++)
+    sum += mineArray[neighbors[i]];
+  return sum;
+}
+
+function check(mineButton, depth) {
+  var mineId = parseInt(mineButton.id);
+
+  if(mineButton.flagged) return; //flagged mine protection
+
+  if(firstClick && depth==0) {
+    console.log("First click!");
+    randomizeBoard(mineId);
+    updateTimer();
+    firstClick = false;
+  }
+
+  if(depth<0) { //middle click or click on revealed square
+    var neighbors = neighborsOf(mineId);
+    var flags = 0;
+    for(var i=0; i<neighbors.length; i++)
+      flags += (document.getElementById(neighbors[i]).flagged);
+    if(flags == mineButton.className) //check if number of flags equals sum of mines
+      for(var i=0; i<neighbors.length; i++)
+         check(document.getElementById(neighbors[i]), 0);
+    return;
+  }
+
+  if(checked[mineId])
+    return;
+  checked[mineId]++;
+  if(mineArray[mineId]) {
+    if(depth == 0) {
+    showMines(false);
+    gameOn = false;
+    mineButton.src = "tiles/triggered.png";
+  }
+    return;
+  } else if(!mineArray[mineId]){
+    var numMines = sumMines(mineId);
+    var neighbors = neighborsOf(mineId);
+    if(numMines == 0) 
+      for(var i=0; i<neighbors.length; i++)
+        check(document.getElementById(neighbors[i]), depth+1);
+    mineButton.src = "tiles/"+numMines+".png";
+    mineButton.className = numMines; //this line is to help middle click logic
+    checkWin();
+    return;
+  }
+}
+
+
+function showMines(winner) {
+  for(var i=0; i<boardSize; i++) {
+    var mineButton = document.getElementById(i);
+    if(mineArray[i]) {
+	  if(winner) {
+        mineButton.src = "tiles/flag.png";
+	  } else mineButton.src = mineButton.flagged ? "tiles/flag.png" : "tiles/bomb.png";
+	} else if(!winner && mineButton.flagged) mineButton.src = "tiles/miss.png";
+  }
+  clearTimeout(currentCounterID);
+  numFlags = winner?numMines:numFlags;
+  updateMinesLeft();
+  stopCounting = true;
+  gameOn = false;
+  document.getElementById("f0").src = winner?"face/win.png":"face/lose.png";
+}
+
+function updateMinesLeft() {
+  var minesLeft = (numMines - numFlags).toString();
+  if(minesLeft[0] == "-" && minesLeft.length==2) minesLeft = "-0" + minesLeft[1];
+  if(parseInt(minesLeft) < -99) minesLeft = "-99";
+  while(minesLeft.length < 3) minesLeft = "0" + minesLeft
+  for(var i=0; i<3; i++) document.getElementById("m" + i).src = "counter/" + color + "/" + minesLeft[i] + ".png";
+}
+
+function updateTimer() {
+  if(gameOn)
+  if(currentTime > 999) {
+    currentTime = 999;
+  } else if(!stopCounting) {
+    currentCounterID = setTimeout(updateTimer, 1000);
+    currentTime++;
+  }
+  currentTime = currentTime.toString();
+  while(currentTime.length < 3) currentTime = "0" + currentTime;
+  for(var i=0; i<3; i++) document.getElementById("t" + i).src = "counter/" + color + "/" + currentTime[i] + ".png";
+}
+
+function checkWin() {
+  sumUnrevealed = 0;
+  for(var i=0; i<boardSize; i++)
+    sumUnrevealed += (document.getElementById(i).className == "unrevealed");
+  if(sumUnrevealed == numMines)
+    showMines(true); //flag all the mines & stop the clock
+}
+
+function pause(){
+  console.log(gameOn);
+  if(!gameOn) location.reload();
+  else if(gameOn && !gamePause) location.reload();
+  else {
+    gamePause = false;
+    document.getElementById("f0").src = "face/smile.png";
+    stopCounting = stopCounting? false:true;
+    if(!stopCounting){
+      clearTimeout(currentCounterID)
+      updateTimer();
+      for(var i=0; i<boardSize; i++){
+        var mineButton = document.getElementById(i);
+        if(mineButton.className == "unrevealed"){
+          if(mineButton.flagged){
+            mineButton.src = "tiles/flag.png";
+          } else mineButton.src = "tiles/blank.png";
+        } else mineButton.src = "tiles/"+mineButton.className+".png";
+      }
+    }
+  }
+}
+
+function changeColor(){
+  if(color == 1) {
+    localStorage.setItem("color",2);
+    location.reload();
+  } else if (color == 2){
+      localStorage.setItem("color",3);
+      location.reload();
+  } else if (color == 3){
+      localStorage.setItem("color",1);
+      location.reload();
+  }
+}
+
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+function diff0() {
+	localStorage.setItem("difficulty",0); location.reload(); 
+}
+
+function diff1() {
+	localStorage.setItem("difficulty",1); location.reload(); 
+}
+
+
+function diff2() {
+	localStorage.setItem("difficulty",2); location.reload(); 
+}
+
+
+var keyboardEvent = document.createEvent("KeyboardEvent");
+var initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? "initKeyboardEvent" : "initKeyEvent";
+
+
+
+</script>
+</head>
+
+<body onload="onLoad()" style="margin-top: 61px; background-repeat: no-repeat;
+    margin-left: 15px;">
+<div id="gameBody">
+<div id="minesLeft">
+<img id="m0"><img id="m1"><img id="m2">
+<div id="face">
+<img id="f0" src="face/smile.png" style="padding-bottom: 5px"; onclick="pause()">
+</div>
+<div id="timeElapsed">
+<img id="t0"><img id="t1"><img id="t2">
+</div>
+<div id="mineButtons"></div>
+</div>
+
+<div class="dropdown">
+  <button onclick="myFunction()" class="dropbtn" >Game</button>
+  <div id="myDropdown" class="dropdown-content">
+    <a onclick="location.reload(true)" href="#">New  &nbsp;   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  R </a>
+    <a onclick="window.blur(true)" href="#">Pause  &nbsp;   &nbsp; &nbsp; &nbsp; &nbsp;  P </a>
+    <hr>
+    <a onclick="diff0()" href="#">Beginner</a>
+    <a onclick="diff1()" href="#">Intermediate</a>
+    <a onclick="diff2()" href="#">Expert</a>
+    <hr>
+    <a onclick="changeColor()" href="#">Change Color</a>
+    <hr>
+    <a onclick="" href="https://css.taxact.com">Exit</a>
+
+    </div>
+</div>
+</body>
+
+</html>

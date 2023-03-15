@@ -1,0 +1,281 @@
+<!-- This HTML program is to help customer support keep track of requests --> 
+<html>
+<head>
+<title>TaxAct BINGO! 2</title>
+
+<style type="text/css">
+table {
+  
+  border-collapse: collapse;
+  font-family: DejaVu Sans;
+}
+
+
+.bingo {
+  font-size: 72;
+  font-weight: bold;
+  text-align: center;
+  font-family: DejaVu Sans;
+  background-color: cyan;
+
+}
+
+@keyframes blackout {
+       0%   {background-color: #00000000;}
+     100%   {background-color: #000000;}
+}
+
+@keyframes example {
+    0%   {background-color: cyan;}
+    13%  {background-color: lawngreen;}
+    25%  {background-color: lime;}
+    37%  {background-color: yellow;}
+    50%  {background-color: orange;}
+    63%  {background-color: red;}
+    77%  {background-color: purple;}
+    90%  {background-color: magenta;}
+    100% {background-color: fuchsia;}
+}
+
+table, td{
+
+  border: 1px solid black;
+  table-layout: fixed;
+  width: 150;
+  height: 100;
+  text-align: center;
+  text-transform: capitalize;  
+}
+nav ul{height: 275px; width:18%;}
+nav ul{overflow:hidden; overflow-y:scroll;}
+
+
+
+</style>
+<title>TaxAct BINGO!</title>
+<script type="text/javascript" src="bingoSpaces.js"></script>
+<script type="text/javascript" src="celebrityCallerList.js"></script>
+<script type="text/javascript">
+
+function generateCallerList() {
+  celebList = document.getElementById("celebList");
+  for(i=0; i<celebrityCallerList.length; i++) {
+    celebListEntry = document.createElement("li");
+    celebListEntryP = document.createElement("p");
+    celebName = document.createTextNode(celebrityCallerList[i]);
+  	
+    celebListEntryP.setAttribute("onclick","dothis");
+ 		
+    celebListEntryP.appendChild(celebName);
+    celebListEntry.appendChild(celebListEntryP);
+    celebList.appendChild(celebListEntry);
+
+
+}
+ 
+}
+
+function generateBingoTable() {
+  bingoTable = document.getElementById("bingoTable");
+  for(i=0; i<5; i++) {
+    bingoRow = document.createElement("tr");
+    bingoRow.setAttribute("class", "bingoRow");
+    for(j=0; j<5; j++) {
+      bingoData = document.createElement("td");
+      bingoData.setAttribute("id",j+5*i);
+      if(i==2 && j==2) {
+        textNode = document.createTextNode("FREE");
+        bingoData.style["background-color"] = "lightgreen";
+        bingoData.style["font-weight"] = "bold";
+        bingoData.appendChild(textNode);
+      } else {
+        dataId = 5*i+j;
+        bingoData.setAttribute("onclick", "changeColor(this); bingoBoard["+dataId+"] = (bingoBoard["+dataId+"] + 1) % 2; checkBingo();");
+        bingoData.style["background-color"] = "white";
+      }
+      bingoRow.appendChild(bingoData);
+    }
+    bingoTable.appendChild(bingoRow);
+  }
+}
+
+
+function randomizeTable() {
+  picked = [];
+  if(bingoSpaces.length < 24) {
+    alert("Not enough entries for bingo spaces!");
+    return;
+  }
+  while(picked.length < 24) {
+    randNumber = Math.trunc(bingoSpaces.length*Math.random());
+    if(picked.indexOf(randNumber)<0) {
+      bingoIndex = picked.length;
+      bingoIndex = (bingoIndex < 12) ? bingoIndex : bingoIndex+1;
+      document.getElementById(bingoIndex.toString()).innerText = bingoSpaces[randNumber];
+      picked.push(randNumber);
+    }
+  }
+}
+
+function updateColor(color) {
+  for(i=0; i<25; i++) {
+    tmp = document.getElementById(i.toString());
+    if(tmp.style["background-color"]!="white") tmp.style["background-color"] = color;
+  }
+  
+}
+
+
+function changeColor(tableData) {
+  currentColor = document.getElementById("colorPicker").value;
+  if(tableData.style["background-color"]=="white") {
+    tableData.style["background-color"] = currentColor;
+
+  } else {
+    tableData.style["background-color"] = "white";
+  }
+}
+var boardSize = 5;
+var bingoBoard = new Array(25);
+bingoBoard.fill(0);
+bingoBoard[12]=1; //free space
+
+function checkBingo() {
+  numOfBingos = 0;
+  //rows
+  for(i=0; i<boardSize; i++) {
+    checkSum = 0;
+    for(j=0; j<boardSize; j++) {
+      checkSum += bingoBoard[boardSize*i+j];
+    }
+    if(checkSum == boardSize) numOfBingos++;
+  }
+
+  //cols
+  for(i=0; i<boardSize; i++) {
+    checkSum = 0;
+    for(j=0; j<boardSize; j++) {
+      checkSum += bingoBoard[i+boardSize*j];
+    }
+    if(checkSum == boardSize) numOfBingos++;
+  }
+
+  //diags
+  checkSum = 0;
+  for(i=0; i<boardSize; i++) {
+    checkSum += bingoBoard[(boardSize+1)*i]; //top left to bottom right
+  }
+  if(checkSum == boardSize) numOfBingos++;
+
+  checkSum = 0;
+  for(j=0; j<boardSize; j++) {
+    checkSum += bingoBoard[(boardSize-1)*(j+1)]; //top right to bottom left
+  }
+  if(checkSum == boardSize) numOfBingos++;
+
+  console.log(numOfBingos);
+  cornerIndexes = [0, boardSize-1, boardSize*(boardSize-1), boardSize*boardSize-1];
+  checkSum = 0;
+  for(i=0; i<cornerIndexes.length; i++) {
+    checkSum += bingoBoard[cornerIndexes[i]];
+  }
+  if(checkSum == 4) console.log("Four Corners");
+  
+  //return numOfBingos; //this will be 12 if it's blackout
+
+  if(numOfBingos > 0) {
+  document.getElementById("msg").innerHTML = "<strong><font size='+4' color='red'>BINGO!</font></strong>";
+  animate=document.getElementsByClassName("bingo");
+console.log(animate.length);
+ for(i=0; i< animate.length; i++){
+  animate[i].style["animation-name"]="example";
+  animate[i].style["animation-duration"]="1s";
+	}
+  }
+  if(checkSum == 4)
+  { document.getElementById("msg").innerHTML = "<strong><font size='+4' color='red'>4 CORNERS!</font></strong>";
+  animate=document.getElementsByClassName("bingo");
+  for(i=0; i< animate.length; i++){
+  animate[i].style["animation-name"]="example";
+  animate[i].style["animation-duration"]="8s";
+  document.body.style["animation-name"]="example";
+  document.body.style["animation-duration"]="8s";	
+    }
+  }
+  
+  if(numOfBingos == 12) {
+  document.getElementById("msg").innerHTML = "<strong><font size='+4' color='red'>BLACKOUT!</font></strong>";
+  animate=document.getElementsByClassName("bingo");
+  for(i=0; i< animate.length; i++){
+  animate[i].style["animation-name"]="blackout";
+  animate[i].style["animation-duration"]="4s";
+     }
+  document.body.style["animation-name"]="blackout";
+  document.body.style["animation-duration"]="4s";
+  bingoTable=document.getElementsByTagName("td");
+  doucment.td.style["animation-name"]="blackout";
+  document.td.style["animation-duration"]="4s";
+  }
+
+}
+
+function fillTextBingo(){
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+
+ctx.font = "20px Georgia";
+
+ctx.font = "30px Verdana";
+// Create gradient
+var gradient = ctx.createLinearGradient(0, 0, c.width, 0);
+gradient.addColorStop("0", "magenta");
+gradient.addColorStop("0.5", "blue");
+gradient.addColorStop("1.0", "red");
+// Fill with gradient
+ctx.fillStyle = gradient;
+ctx.fillText("BINGO!", 100, 50);
+}
+
+
+
+</script>
+
+</head>
+<body onload="generateBingoTable(); randomizeTable(); generateCallerList();">
+<table id="bingoTable">
+<tr class="bingo">
+  <td>B</td>
+  <td>I</td>
+  <td>N</td>
+  <td>G</td>
+  <td>O</td>
+</tr>
+</table>
+
+Select color: <input type="color" id="colorPicker" onchange="updateColor(this.value);" value="#90EE90">
+
+<br><div id="msg">   </div><br>
+
+<p>
+<canvas id="myCanvas" width="100" height="50" style="">
+
+</canvas>
+</p>
+
+<input id="restartbutton" type="button" value="restart" onclick="reload(location.reload)" style="margin-top: -100px;">
+
+
+
+<P STYLE="margin-bottom: 0in"><BR>
+</P>
+<P STYLE="margin-bottom: 0in"><BR>
+</P>
+<P STYLE="margin-left: 33px;margin-top: -50px;"><B>Celebrity Bonus Space </B></p>
+<NAV>
+<UL id = "celebList">
+</UL>
+</NAV>
+
+
+</body>
+</html>

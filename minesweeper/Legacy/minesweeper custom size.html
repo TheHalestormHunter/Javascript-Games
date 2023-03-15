@@ -1,0 +1,1027 @@
+<!--Travis-->
+<html>
+<head>
+<script src="jquery/jquery.min.js"></script>
+<script src="bootstrap/bootstrap.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<link rel="shortcut icon" type="image/png" href="https://css.taxact.com/favicon.ico"/>
+<style type="text/css">
+img { display: inline-block }
+//div { border: double }
+#gameBody {width: 180; height: 200}
+#minesLeft {float: left }
+#face {display: inline}
+#timeElapsed {float: right}
+#mineButtons {float: center;}
+
+
+/* Dropdown Button */ 
+.dropbtn { 
+   background-color: #ece9d8;
+   color: Black;
+   #padding: 1px;
+   font-size: 12px;
+   border: none;
+   cursor: pointer; 
+   position: relative;
+   font-family: Segoe UI;
+   padding-top: 2.5px;
+}
+.dropbtn:hover, .dropbtn:focus {
+   background-color: #dad4b4;
+}
+.dropdown {
+   position: absolute;
+   display: inline-block;
+   left: 4px;
+   top: 31.5px;
+}
+.dropdown-content {
+   display: none;
+   position: absolute;
+   background-color: white;
+   min-width: 100px;
+   max-width: 160px;
+   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); 
+   z-index: 1;
+   left: 1px;
+
+} 
+.dropdown-content a {
+   color: black;
+   #padding: 2px 2px;
+   text-decoration: none;
+   display: block;
+   font-family: "Segoe UI";
+}
+.dropdown-content a:hover {
+   background-color: #215fc6;
+   color: white;
+}
+.show {display:block;}
+
+.dropbtn2 { 
+   background-color: #ece9d8;
+   color: Black;
+   #padding: 1px;
+   font-size: 12px;
+   border: none;
+   cursor: pointer; 
+   position: relative;
+   font-family: Segoe UI;
+   padding-top: 2.5px;
+   
+}
+.dropbtn2:hover, .dropbtn2:focus {
+   background-color: #dad4b4;
+}
+.dropdown2 {
+   position: absolute;
+   display: inline-block;
+   left: 4px;
+   top: 31.5px;
+   left: 42.5px;
+}
+.dropdown-content2 {
+   display: none;
+   position: absolute;
+   background-color: white;
+   min-width: 100px;
+   max-width: 160px;
+   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); 
+   z-index: 1;
+   left: 1px;
+
+} 
+.dropdown-content a2 {
+   color: black;
+   #padding: 2px 2px;
+   text-decoration: none;
+   display: block;
+   font-family: "Segoe UI";
+}
+.dropdown-content a2:hover {
+   background-color: #215fc6;
+   color: white;
+}
+
+.show2 {display:block;}
+
+.exitbtn {
+    border: 0px;
+    padding: 0px;
+    position: absolute;
+    top: 8px;
+}
+
+.modalstyle {
+font-family: "Segoe UI";
+font-size: "12px";
+}
+
+
+.modal-open{
+    overflow:hidden;
+}
+.modal{
+    position:fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    z-index:1050;
+    display:none;
+    overflow:hidden;
+    -webkit-overflow-scrolling:touch;
+    outline:0;
+}
+.modal.fade .modal-dialog{
+    -webkit-transition:-webkit-transform .3s ease-out;
+    -o-transition:-o-transform .3s ease-out;
+    transition:transform .3s ease-out;
+    -webkit-transform:translate(0,-25%);
+    -ms-transform:translate(0,-25%);
+    -o-transform:translate(0,-25%);
+    transform:translate(0,-25%);
+}
+.modal.in .modal-dialog{
+    -webkit-transform:translate(0,0);
+    -ms-transform:translate(0,0);
+    -o-transform:translate(0,0);
+    transform:translate(0,0);
+}
+.modal-open .modal{
+    overflow-x:hidden;
+    overflow-y:auto;
+}
+.modal-dialog{
+    position:relative;
+    width:auto;
+    margin:10px;
+}
+.modal-content{
+    position:relative;
+    background-color:#fff;
+    -webkit-background-clip:padding-box;
+    background-clip:padding-box;
+    border:1px solid #999;
+    border:1px solid rgba(0,0,0,.2);
+    border-radius:6px;
+    outline:0;
+    -webkit-box-shadow:0 3px 9px rgba(0,0,0,.5);
+    box-shadow:0 3px 9px rgba(0,0,0,.5);
+font-family: Segoe UI;
+}
+.modal-backdrop{
+    position:fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    z-index:1040;
+    background-color:#000;
+}
+.modal-backdrop.fade{
+    filter:alpha(opacity=0);
+    opacity:0;
+}
+.modal-backdrop.in{
+    filter:alpha(opacity=50);
+    opacity:.5;
+}
+.modal-header{
+    padding:15px;
+    border-bottom:1px solid #e5e5e5;
+}
+.modal-header .close {
+    margin-top:-2px
+    cursor: pointer; 
+}
+.modal-title{
+    margin:0;
+    line-height:1.42857143;
+}
+.modal-body{
+    position:relative;
+    padding:15px;
+}
+.modal-footer{
+    padding:15px;
+    text-align:right;
+    border-top:1px solid #e5e5e5;
+}
+.modal-footer .btn+.btn{
+    margin-bottom:0;
+    margin-left:5px;
+}
+.modal-footer .btn-group .btn+.btn{
+    margin-left:-1px;
+}
+.modal-footer .btn-block+.btn-block{
+    margin-left:0;
+}
+.modal-scrollbar-measure{
+    position:absolute;
+    top:-9999px;
+    width:50px;
+    height:50px;
+    overflow:scroll;
+}
+@media (min-width:768px){
+    .modal-dialog{
+        width:600px;
+        margin:30px auto;
+    }
+    .modal-content{
+        -webkit-box-shadow:0 5px 15px rgba(0,0,0,.5);
+        box-shadow:0 5px 15px rgba(0,0,0,.5);
+    }
+    .modal-sm{
+        width:300px;
+    }
+}
+
+.close {
+    float:right;
+    font-size:21px;
+    font-weight:700;
+    line-height:1;
+    color:#000;
+    text-shadow:0 1px 0 #fff;
+    filter:alpha(opacity=20);
+    opacity:.2;
+    cursor: pointer; 
+}
+
+.btnclose {
+cursor: pointer;
+}
+
+.btnX {
+cursor: pointer;
+float:right;
+font-size:21px;
+font-weight:700;
+    line-height:1;
+    color:#000;
+    text-shadow:0 1px 0 #fff;
+    filter:alpha(opacity=20);
+    opacity:.2;
+    
+}
+
+
+</style>
+<title>CSS - Home</title>
+<script type="text/javascript">
+var difficulty;
+var color;
+var gamesWon;
+var gamesLost;
+var gamesPlayed; 
+var timesReset;
+var highScores;
+var benCounter;
+var popOut;
+var popWindow;
+var oldScore;
+var newScore;
+var totalGames;
+var customW;
+var customH;
+var customM;
+var customP;
+var customX;
+
+
+if(typeof(Storage) != null) {
+  Storage.prototype.setObj = function(key, obj) {
+    return this.setItem(key, JSON.stringify(obj))
+  }
+  Storage.prototype.getObj = function(key) {
+    return JSON.parse(this.getItem(key))
+  }
+  difficulty = localStorage.getItem("difficulty");
+  if(difficulty == null) {
+    difficulty = 1;
+    localStorage.setItem("difficulty",1);
+  }
+  color = localStorage.getItem("color");
+  if(color == null) {
+    color = 1;
+    localStorage.setItem("color",1);
+  }
+  timesReset = localStorage.getItem("timesReset");
+  if(timesReset == null) {
+    timesReset = 0;
+    localStorage.setItem("timesReset",0);
+  }
+  benCounter = localStorage.getItem("benCounter");
+  if(benCounter == null) {
+    benCounter = 0;
+    localStorage.setItem("benCounter",0);
+  }
+  popOut = localStorage.getItem("popOut");
+  if(popOut == null) {
+    popOut = 0;
+    localStorage.setItem("popOut",0);
+  }
+  totalGames = localStorage.getItem("totalGames");
+  if(totalGames == null) {
+    totalGames = 0;
+    localStorage.setItem("totalGames",0);
+  }
+  customW = localStorage.getItem("customW");
+  if(customW == null) {
+    customW = 0;
+    localStorage.setItem("customW",0);
+  }
+  customH = localStorage.getItem("customH");
+  if(customH == null) {
+    customH = 0;
+    localStorage.setItem("customH",0);
+  }
+  customM = localStorage.getItem("customM");
+  if(customM == null) {
+    customM = 0;
+    localStorage.setItem("customM",0);
+  }
+  customP = localStorage.getItem("customP");
+  if(customP == null) {
+    customP = 0;
+    localStorage.setItem("customP",0);
+  }
+  customX = localStorage.getItem("customX");
+  if(customX == null) {
+    customX = 0;
+    localStorage.setItem("customX",0);
+  }
+  highScores = localStorage.getObj("highScores");
+  if(highScores == null) {
+  highScores = [[999,999,999],[999,999,999],[999,999,999],[999,999,999]];
+  localStorage.setObj('highScores',highScores);
+  }
+  gamesWon = localStorage.getObj("gamesWon");
+  if(gamesWon == null) {
+  gamesWon = [[0],[0],[0],[0]];
+  localStorage.setObj('gamesWon',gamesWon);
+  }
+  gamesLost = localStorage.getObj("gamesLost");
+  if(gamesLost == null) {
+  gamesLost = [[0],[0],[0],[0]];
+  localStorage.setObj('gamesLost',gamesLost);
+  }
+  gamesPlayed = localStorage.getObj("gamesPlayed");
+  if(gamesPlayed == null) {
+  gamesPlayed = [[0,0],[0,0],[0,0],[0,0]];
+  localStorage.setObj('gamesPlayed',gamesPlayed);
+  } 
+} else { // no local storage available
+    customW = 0;
+    customH = 0;
+    customP = 0;
+    customM = 0;
+    customX = 0;
+    difficulty = 1;
+    color = 1;
+    timesReset = 0;
+    benCounter = 0;
+    popOut = 0;
+    totalGames = 0;
+    gamesWon = [[0],[0],[0],[0]];
+    gamesLost = [[0],[0],[0],[0]];
+    gamesPlayed = [[0,0],[0,0],[0,0],[0,0]];
+    highScores = [[999,999,999],[999,999,999],[999,999,999],[999,999,999]];
+}
+
+
+var numFlags = 0;
+if(difficulty !=3) {
+  var boardWidth = [9,16,32][difficulty];
+  var boardHeight = [9,16,16][difficulty];
+  var numMines = [10,40,99][difficulty];
+  var boardSize = boardWidth*boardHeight;
+  var facePosition = [9,78,238][difficulty];
+  var xPosition = [181,321,620][difficulty];
+} else {
+  var boardWidth = parseInt(customW);
+  var boardHeight = parseInt(customH);
+  var boardSize = parseInt(customW)*parseInt(customH);
+  var numMines = customM;
+  customP = (customW*10)-67;
+  customX = (customW*20);
+  var facePosition = customP;
+  var xPosition = customX;
+}
+
+var currentTime = 0;
+var mineArray = new Array(boardSize);
+mineArray.fill(0);
+
+
+var checked = new Array(boardSize);
+checked.fill(0);
+
+var firstClick = true;
+var stopCounting = false;
+var currentCounterID;
+var gameOn = true;
+var gamePause = false;
+var cheater = false;
+
+function neighborsOf(arrayID) {
+  output = [];
+  //row above, left to right
+  if(arrayID >= boardWidth) {
+    if(arrayID%boardWidth != 0) output.push(arrayID-boardWidth-1);
+    output.push(arrayID-boardWidth);
+    if((arrayID+1)%boardWidth != 0) output.push(arrayID-boardWidth+1);
+  }
+  //current row, left then right
+  if(arrayID%boardWidth != 0) output.push(arrayID-1);
+  if((arrayID+1)%boardWidth != 0) output.push(arrayID+1);
+  //row below, left to right
+  if(arrayID < boardWidth*(boardHeight-1)) {
+    if(arrayID%boardWidth != 0) output.push(arrayID+boardWidth-1);
+    output.push(arrayID+boardWidth);
+    if((arrayID+1)%boardWidth != 0) output.push(arrayID+boardWidth+1);
+  }
+  return output;
+}
+
+function randomizeBoard(mineId) {
+  console.log("Randomizing board");
+  var randNumber;
+  var neighbors = neighborsOf(mineId);
+  neighbors.push(mineId);
+  while(mineArray.reduce(function f(x,y){return x+y}) < numMines) {
+    randNumber = Math.trunc(boardSize*Math.random());
+    if(!mineArray[randNumber] && neighbors.indexOf(randNumber) == -1) mineArray[randNumber]=1;
+  }
+}
+
+function onLoad() {
+  window.onblur = function(e){
+    if(gameOn){
+      gamePause = true;
+      document.getElementById("f0").src = "face/clock.png";
+      stopCounting = stopCounting? false:true;
+      for(var i=0; i<boardSize; i++)
+        document.getElementById(i).src = "tiles/"+"PAUSED000"[i%9]+".png";
+    }
+  };
+  window.onkeydown = function(e) {
+    switch(e.key) {
+      case "1": localStorage.setItem("difficulty",0); location.reload(); break;
+      case "2": localStorage.setItem("difficulty",1); location.reload(); break;
+      case "3": localStorage.setItem("difficulty",2); location.reload(); break;
+      case "4": custom(); break;
+      case "r": gameLost(); location.reload(); break;
+      case "c": changeColor(); break;
+      case "b": ben(); break;
+      case "p": 
+        if(gameOn){
+          gamePause = false;
+          document.getElementById("f0").src = "face/smile.png";
+          stopCounting = stopCounting? false:true;
+            if(!stopCounting){
+              updateTimer();
+              for(var i=0; i<boardSize; i++){
+                 var mineButton = document.getElementById(i);
+                 if(mineButton.className == "unrevealed"){
+                   if(mineButton.flagged){
+                   mineButton.src = "tiles/flag.png";
+                   } else mineButton.src = "tiles/blank.png";
+                 } else mineButton.src = "tiles/"+mineButton.className+".png";
+              }
+            } else {
+              gamePause = true;
+              clearTimeout(currentCounterID);
+              document.getElementById("f0").src = "face/clock.png";
+              for(var i=0; i<boardSize; i++)
+                document.getElementById(i).src = "tiles/"+"PAUSED000"[i%9]+".png";
+          } break;
+        }
+      }
+    }
+  document.getElementById("ex").style["left"] = xPosition + "px";
+  document.body.style.backgroundImage = "url('border/"+ (difficulty) + ".png')";
+  document.getElementById("gameBody").style.width = boardWidth * 20;
+  document.getElementById("face").style["padding-left"] = facePosition + "px";
+  for(var i=0; i<3; i++) document.getElementById("t" + i).src = "counter/" + color + "/0.png";
+  divMineButtons = document.getElementById("mineButtons");
+  window.oncontextmenu = function() {return false}; //disable right-click menu
+  document.addEventListener("dragstart", function(e) {
+    if(!stopCounting){
+      if(e.target.flagged == 1){
+        e.target.src = "tiles/flag.png";
+      } else {
+          if(gamePause) document.getElementById("f0").src = "face/clock.png";
+          if(!gamePause) document.getElementById("f0").src = "face/smile.png";
+        if(e.target.className == "unrevealed") e.target.src = "tiles/blank.png";
+        }
+      }
+    });
+  var newButton, mineId;
+  document.body.appendChild(document.createElement("br"));
+  for(var i=0; i<boardHeight; i++) {
+    for(var j=0; j<boardWidth; j++) {
+      newButton = document.createElement("img");
+      newButton.src = "tiles/blank.png";
+      newButton.flagged = 0;
+      newButton.draggable = "true";
+      mineId = i*boardWidth+j;
+      newButton.id = mineId;
+      newButton.className = "unrevealed";
+      document.body.onmousedown = function(e) { if (e.button === 1) return false; }
+      newButton.onmousedown = function(e) { 
+       if(gameOn)
+        if(!stopCounting)
+          switch(e.which) {
+            case 1: if(e.target.className=="unrevealed" && e.target.flagged == 0) {e.target.src = "tiles/depressed.png"; document.getElementById("f0").src = "face/O.png";} break;
+            case 2: var neighbors = neighborsOf(parseInt(e.target.id)); neighbors.push(e.target.id);
+              for(var i=0; i<neighbors.length; i++){
+                neighbor = document.getElementById(neighbors[i]);
+                if(neighbor.className =="unrevealed" && neighbor.flagged == 0) {neighbor.src = "tiles/depressed.png"; document.getElementById("f0").src = "face/O.png";}} break;
+            case 3: break;         
+          }
+      }
+      newButton.onmouseup = function(e) { 
+        if(gamePause) document.getElementById("f0").src = "face/clock.png";
+        if(!gamePause) document.getElementById("f0").src = "face/smile.png";
+        if(!gameOn) document.getElementById("f0").src = "face/lose.png";
+        if(gameOn)
+        if(!stopCounting)
+          switch(e.which) {
+            case 1: if(e.target.className=="unrevealed") {check(e.target, 0)} else {check(e.target, -1)}; break;
+            case 2: 
+          var neighbors = neighborsOf(parseInt(e.target.id));
+  neighbors.push(e.target.id);
+                  for(var i=0; i<neighbors.length; i++){
+                    var neighbor = document.getElementById(neighbors[i]);
+                    if(neighbor.className == "unrevealed" && neighbor.flagged == 0)
+      neighbor.src = "tiles/blank.png";
+  }
+  check(e.target, -1);
+  break;
+            case 3:
+              if(!checked[e.target.id]) {
+                e.target.src = e.target.flagged ? "tiles/blank.png" : "tiles/flag.png";
+                e.target.flagged = e.target.flagged ? 0 : 1;
+                numFlags += e.target.flagged ? 1 : -1;
+                updateMinesLeft();
+              } break;
+           }
+      }
+      newButton.onmouseleave = function(e) {
+   // if(!stopCounting)
+      if(e.which == 2){
+            var neighbors = neighborsOf(parseInt(e.target.id)); neighbors.push(e.target.id);
+            document.getElementById("f0").src = "face/smile.png";
+            for(var i=0; i<neighbors.length; i++){
+              neighbor = document.getElementById(neighbors[i]);
+              if(neighbor.className == "unrevealed") {neighbor.src = "tiles/blank.png";}
+              if(neighbor.flagged) neighbor.src = "tiles/flag.png";
+             }
+          }
+      }
+      newButton.onmouseenter = function(e) {
+    //if(!stopCounting)
+  if(e.which == 2){
+          var neighbors = neighborsOf(parseInt(e.target.id)); neighbors.push(e.target.id);
+          document.getElementById("f0").src = "face/O.png";
+          for(var i=0; i<neighbors.length; i++){
+            neighbor = document.getElementById(neighbors[i]);
+            if(neighbor.className == "unrevealed") {neighbor.src = "tiles/depressed.png";}
+            if(neighbor.flagged) neighbor.src = "tiles/flag.png";
+          }
+        }
+      }
+      divMineButtons.appendChild(newButton);
+    }
+    divMineButtons.appendChild(document.createElement("br"));
+  }
+
+  updateMinesLeft();
+}
+
+function sumMines(mineId) {
+  var sum = 0;
+  var neighbors = neighborsOf(mineId);
+  for(var i=0; i<neighbors.length; i++)
+    sum += mineArray[neighbors[i]];
+  return sum;
+}
+
+function check(mineButton, depth) {
+  var mineId = parseInt(mineButton.id);
+
+  if(mineButton.flagged) return; //flagged mine protection
+
+  if(firstClick && depth==0 && !gamePause) {
+    console.log("First click!");
+    randomizeBoard(mineId);
+    updateTimer();
+    firstClick = false;
+  }
+
+  if(depth<0) { //middle click or click on revealed square
+    var neighbors = neighborsOf(mineId);
+    var flags = 0;
+    for(var i=0; i<neighbors.length; i++)
+      flags += (document.getElementById(neighbors[i]).flagged);
+    if(flags == mineButton.className) //check if number of flags equals sum of mines
+      for(var i=0; i<neighbors.length; i++)
+         check(document.getElementById(neighbors[i]), 0);
+    return;
+  }
+
+  if(checked[mineId])
+    return;
+  checked[mineId]++;
+  if(mineArray[mineId]) {
+    if(!cheater){
+      if(depth == 0) {
+      gameOn = false;
+      gameLost();
+      showMines(false);
+      mineButton.src = "tiles/triggered.png";
+    }
+  }
+    return;
+  } else if(!mineArray[mineId]){
+    var numMines = sumMines(mineId);
+    var neighbors = neighborsOf(mineId);
+    if(numMines == 0) 
+      for(var i=0; i<neighbors.length; i++)
+        check(document.getElementById(neighbors[i]), depth+1);
+    mineButton.src = "tiles/"+numMines+".png";
+    mineButton.className = numMines; //this line is to help middle click logic
+    checkWin();
+    return;
+  }
+}
+
+function ben(){
+  if(gameOn){
+  cheater = true;
+  showMines(true);
+    for(var i=0; i<boardSize; i++) {
+      var boardSpaces = document.getElementById(i);
+      boardSpaces.src = "tiles/"+boardSpaces.className+".png";
+      if(boardSpaces.flagged) return; //flag protection
+      if(boardSpaces.className=="unrevealed") {check(boardSpaces, 0)};    
+    }
+   showMines(true);
+   benCounter++;
+   localStorage.setItem("benCounter", benCounter);
+   console.log("Ben has been special summoned to complete the game.");
+   if(benCounter == 10) console.log("Ben is disipointed.");
+   if(benCounter == 20) console.log("Ben is sad.");
+   if(benCounter == 30) console.log("Ben is happy, you suck at this game.");
+   if(benCounter == 40) console.log("Ben has been summoned to complete the game but was not good enough Jonah has now been summoned to conquer all.");
+   if(benCounter == 50) console.log("Ben will now end this travesty of a game you have failed to complete in a suitable time.");
+   if(benCounter == 60) console.log("Jen Bensen has ben summoned to defeate the Ben Jensen");
+   if(benCounter == 70) console.log("Ben has slayed this game beacuse you could not");
+   if(benCounter == 80) console.log("Ben has become enraged");
+   if(benCounter == 90) console.log("Ben is out of control");
+   if(benCounter == 100) console.log("Ben has swept through and cleared all that you could not");
+   if(benCounter == 110) console.log("Ben you say, the force you must use");
+   if(benCounter == 120) console.log("An error has occured, Ben has been summoned to fix");
+   if(benCounter == 130) console.log("You win");
+   else console.log("Ben has been summoned " + benCounter + " times.");
+  }
+}
+
+function showMines(winner) {
+  for(var i=0; i<boardSize; i++) {
+    var mineButton = document.getElementById(i);
+    if(mineArray[i]) {
+  if(winner) {
+        mineButton.src = "tiles/flag.png";
+        document.getElementById("f0").src = "face/win.png"
+  } else {
+  document.getElementById("f0").src = "face/lose.png"
+  mineButton.src = mineButton.flagged ? "tiles/flag.png" : "tiles/bomb.png";
+ }
+} else if(!winner && mineButton.flagged) {
+    mineButton.src = "tiles/miss.png";
+    document.getElementById("f0").src = "face/lose.png"
+    }
+  }
+  clearTimeout(currentCounterID);
+  numFlags = winner?numMines:numFlags;
+  updateMinesLeft();
+  stopCounting = true;
+  if(winner) gameWon();
+  if(gameOn){
+    if(!cheater){
+      updateHighScore();
+      gameOn = false;
+    }
+  }
+  gameOn = false;
+}
+function updateMinesLeft() {
+  var minesLeft = (numMines - numFlags).toString();
+  if(minesLeft[0] == "-" && minesLeft.length==2) minesLeft = "-0" + minesLeft[1];
+  if(parseInt(minesLeft) < -99) minesLeft = "-99";
+  while(minesLeft.length < 3) minesLeft = "0" + minesLeft
+  for(var i=0; i<3; i++) document.getElementById("m" + i).src = "counter/" + color + "/" + minesLeft[i] + ".png";
+}
+
+function updateTimer() {
+  if(gameOn)
+  if(currentTime > 999) {
+    currentTime = 999;
+  } else if(!stopCounting) {
+    currentCounterID = setTimeout(updateTimer, 1000);
+    currentTime++;
+  }
+  currentTime = currentTime.toString();
+  while(currentTime.length < 3) currentTime = "0" + currentTime;
+  for(var i=0; i<3; i++) document.getElementById("t" + i).src = "counter/" + color + "/" + currentTime[i] + ".png";
+}
+
+function checkWin() {
+  sumUnrevealed = 0;
+  for(var i=0; i<boardSize; i++)
+    sumUnrevealed += (document.getElementById(i).className == "unrevealed");
+  if(sumUnrevealed == numMines)
+    showMines(true); //flag all the mines & stop the clock
+}
+
+
+
+function pause(){
+  console.log(gameOn);
+  if(!gameOn) location.reload();
+  else if(gameOn && !gamePause) {
+    location.reload();
+    gameLost();
+  } else {
+      if(!firstClick){
+        gamePause = false;
+        document.getElementById("f0").src = "face/smile.png";
+        stopCounting = stopCounting? false:true;
+        if(!stopCounting){
+          clearTimeout(currentCounterID)
+          updateTimer();
+          for(var i=0; i<boardSize; i++){
+            var mineButton = document.getElementById(i);
+            if(mineButton.className == "unrevealed"){
+              if(mineButton.flagged){
+                mineButton.src = "tiles/flag.png";
+              } else mineButton.src = "tiles/blank.png";
+            } else mineButton.src = "tiles/"+mineButton.className+".png";
+          }
+        }
+      } else location.reload();
+    }
+}
+
+function changeColor(){
+  if(color == 1) {
+    localStorage.setItem("color",2);
+    location.reload();
+  } else if (color == 2){
+      localStorage.setItem("color",3);
+      location.reload();
+  } else if (color == 3){
+      localStorage.setItem("color",1);
+      location.reload();
+  }
+}
+
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+function myFunction2() {
+    document.getElementById("myDropdown2").classList.toggle("show");
+}
+
+//Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+    var myDropdown = document.getElementById("myDropdown");
+      if (myDropdown.classList.contains('show')) {
+        myDropdown.classList.remove('show');
+      }
+  }  
+  else if (!e.target.matches('.dropbtn2')) {
+    var myDropdown = document.getElementById("myDropdown2");
+      if (myDropdown2.classList.contains('show')) {
+        myDropdown2.classList.remove('show');
+      }
+  }
+}
+
+function exit() {
+  window.location.assign("https://css.taxact.com/")
+}
+
+
+function diff0() {
+  localStorage.setItem("difficulty",0); 
+  parseInt(popOut);
+  if(popOut == 1) {
+    popWindow = window.open("//mhvfs01/TechSupport/Professional Support/Travis/archive/minesweeper/minesweeper popout.html", " ", "resizable=1, titlebar=0, status=0, menubar=0, width=207, height=291, top=870, left=2275");
+   } 
+  location.reload(); 
+}
+function diff1() {
+  localStorage.setItem("difficulty",1); 
+  parseInt(popOut);
+  if(popOut == 1) {
+    popWindow = window.open("//mhvfs01/TechSupport/Professional Support/Travis/archive/minesweeper/minesweeper popout.html", " ", "resizable=1, titlebar=0, status=0, menubar=0, width=347, height=431, top=870, left=2275");
+  } 
+  location.reload(); 
+}
+function diff2() {
+  localStorage.setItem("difficulty",2);
+  parseInt(popOut)
+  if(popOut == 1) {
+    popWindow = window.open("//mhvfs01/TechSupport/Professional Support/Travis/archive/minesweeper/minesweeper popout.html", " ", "resizable=1, titlebar=0, status=0, menubar=0, width=647, height=431, top=870, left=2275");
+ } 
+  location.reload(); 
+}
+
+function resetScore() {
+  localStorage.clear("gamesLost");
+  localStorage.clear("gamesWon");
+  timesReset++;
+  localStorage.setItem("timesReset",timesReset);
+  location.reload();
+}
+
+
+function updateHighScore() {
+  oldScore = highScores[difficulty];
+  console.log('Old Scores: '+oldScore);
+  highScores[difficulty].push(parseInt(currentTime, 10));
+  highScores[difficulty].sort(sortScores);
+  highScores[difficulty].pop();
+  newScore = highScores[difficulty];
+  if(newScore != oldScore) console.log("NEW HIGHSCORE");
+  localStorage.setObj("highScores", highScores);
+  console.log('New Scores: '+newScore);
+}
+
+function sortScores(a,b) {
+  return a - b;
+}
+
+function gameWon() {
+  JSON.parse(gamesWon[difficulty],100);
+  gamesWon[difficulty]++;
+  totalGames++;
+  gamesPlayed[difficulty] = gamesWon[difficulty] + gamesLost[difficulty];
+  localStorage.setItem("totalGames",totalGames);
+  localStorage.setObj("gamesWon", gamesWon);
+  console.log('Games Won: '+gamesWon[difficulty]);
+  console.log('Games Lost: '+gamesLost[difficulty]);
+  parseInt("gamesPlayed[difficulty]", 10)
+  console.log('Games Played at this difficulty: '+gamesPlayed[difficulty]);
+}
+
+function gameLost() {
+  JSON.parse(gamesLost[difficulty],100);
+  gamesLost[difficulty]++;
+  totalGames++;
+  gamesPlayed[difficulty] = gamesWon[difficulty] + gamesLost[difficulty];
+  localStorage.setItem("totalGames",totalGames);
+  localStorage.setObj("gamesLost", gamesLost);
+  console.log('Games Won: '+gamesWon[difficulty]);
+  console.log('Games Lost: '+gamesLost[difficulty]);
+  parseInt("gamesPlayed[difficulty]", 10)
+  console.log('Games Played at this difficulty: '+gamesPlayed[difficulty]);
+}
+
+function custom() {
+  customW = prompt("Enter the Custom Width: ",boardWidth);
+  customH = prompt("Enter the Custom Height: ",boardHeight);
+  customM = prompt("Enter the Number of Mines:",numMines);
+  parseInt("customW",10);
+  parseInt("customH",10);
+  parseInt("customM",10);
+  localStorage.setItem("customW",customW);
+  localStorage.setItem("customH",customH);
+  localStorage.setItem("customM",customM);
+  localStorage.setItem("difficulty",3);
+  location.reload();
+}
+
+function popGame() {
+  parseInt(popOut);
+  if(difficulty==0)
+    popWindow = window.open("//mhvfs01/TechSupport/Professional Support/Travis/archive/minesweeper/minesweeper popout.html", " ", "resizable=1, titlebar=0, status=0, menubar=0, width=207, height=291, top=870, left=2275");
+  if(difficulty==1)
+    popWindow = window.open("//mhvfs01/TechSupport/Professional Support/Travis/archive/minesweeper/minesweeper popout.html", " ", "resizable=1, titlebar=0, status=0, menubar=0, width=347, height=431, top=870, left=2275");
+  if(difficulty==2)
+    popWindow = window.open("//mhvfs01/TechSupport/Professional Support/Travis/archive/minesweeper/minesweeper popout.html", " ", "resizable=1, titlebar=0, status=0, menubar=0, width=647, height=431, top=870, left=2275");
+    window.close();
+}
+
+
+var keyboardEvent = document.createEvent("KeyboardEvent");
+var initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? "initKeyboardEvent" : "initKeyEvent";
+
+</script>
+</head>
+
+<body onload="onLoad()" style="margin-top: 61px; background-repeat: no-repeat;
+    margin-left: 15px;">
+
+<button class=exitbtn id=ex>
+<img id="e0" src="border/working/X.png" onclick="exit()">
+</button>
+
+<div id="gameBody">
+<div id="minesLeft">
+<img id="m0"><img id="m1"><img id="m2">
+<div id="face">
+<img id="f0" src="face/smile.png" style="padding-bottom: 5px"; onclick="pause()">
+</div>
+<div id="timeElapsed">
+<img id="t0"><img id="t1"><img id="t2">
+</div>
+<div id="mineButtons"></div>
+</div>
+
+<div class="dropdown">
+  <button onclick="myFunction()" class="dropbtn" >Game</button>
+  <div id="myDropdown" class="dropdown-content">
+    <a onclick="location.reload(true)" href="#">New  &nbsp;   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  R </a>
+    <a onclick="window.blur(true)" href="#">Pause  &nbsp;   &nbsp; &nbsp; &nbsp; &nbsp;  P </a>
+    <hr>
+    <a onclick="diff0()" href="#">Beginner</a>
+    <a onclick="diff1()" href="#">Intermediate</a>
+    <a onclick="diff2()" href="#">Expert</a>
+    <hr>    
+    <a onclick="changeColor()" href="#">Change Color</a>
+    <hr>
+    <a onclick="popGame()" href"#">Pop Out</a>
+    <hr>
+    <a onclick="" href="https://css.taxact.com">Exit</a>
+
+    </div>
+</div>
+
+<div class="dropdown2">
+  <button onclick="myFunction2()" class="dropbtn2">Help</button>
+  <div id="myDropdown2" class="dropdown-content">
+    <a onclick="" href="#">System Info</a>
+    <hr>
+    <a class=modalstyle data-toggle="modal" data-target="#myModal">Statistics </a>
+    <a onclick="resetScore()" href="#">Reset Statistics</a>
+    <hr>
+    <a onclick="alert('This game was created by Ben J(RIP), Travis G, and Reid K(RIP)')" href="#">About</a>
+    
+</div>
+</div>
+
+<div class="container">
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <a type="button" class="btnX" data-dismiss="modal">&times;</a>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btnclose" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+
+</body>
+
+<footer>
+
+
+</footer>
+
+</html>
+
+
+
+
+
+
+

@@ -1,0 +1,297 @@
+<!-- This HTML program is to help customer support keep track of requests --> 
+<html>
+<head>
+<title>TaxAct BINGO! 2</title>
+
+<style type="text/css">
+table {
+  
+  border-collapse: collapse;
+  font-family: DejaVu Sans;
+}
+
+
+.bingo {
+  font-size: 72;
+  font-weight: bold;
+  text-align: center;
+  font-family: DejaVu Sans;
+  background-color: cyan;
+
+}
+
+@keyframes example {
+    0%   {background-color: cyan;}
+    13%  {background-color: lawngreen;}
+    25%  {background-color: lime;}
+    37%  {background-color: yellow;}
+    50%  {background-color: orange;}
+    63%  {background-color: red;}
+    77%  {background-color: purple;}
+    90%  {background-color: magenta;}
+    100% {background-color: fuchsia;}
+}
+
+table, td{
+
+  border: 1px solid black;
+  table-layout: fixed;
+  width: 150;
+  height: 100;
+  text-align: center;
+  text-transform: capitalize;  
+}
+nav ul{height: 275px; width:18%;}
+nav ul{overflow:hidden; overflow-y:scroll;}
+
+
+
+</style>
+<title>TaxAct BINGO!</title>
+<script type="text/javascript" src="bingoSpaces.js"></script>
+<script type="text/javascript">
+
+var boardSize = 5;
+var bingoBoard = new Array(Math.pow(boardSize,2));
+bingoBoard.fill(0);
+bingoBoard[(Math.pow(boardSize,2)-1)/2]=1; //free space
+
+function generateBingoTable() {
+  if(boardSize % 2 == 0) {
+    alert("Bingo is supposed to be a 5x5 board. This is an abomination that you are attempting you even TRY to change the size of the board. Even so, I'll allow it, but ONLY IF THE BOARD SIZE IS ODD. Please stop using awful numbers.");
+    return;
+  }
+  bingoTable = document.getElementById("bingoTable");
+
+  bingoHeaderRow = document.createElement("tr"); //----- Generate BINGO header row
+  bingoHeaderRow.setAttribute("class","bingo");
+  for(b=0; b<boardSize; b++) {
+    bingoLetter = "BINGO".charAt(b%5);
+    bingoHeaderData = document.createElement("td");
+    bingoHeaderText = document.createTextNode(bingoLetter);
+    bingoHeaderData.appendChild(bingoHeaderText);
+    bingoHeaderRow.appendChild(bingoHeaderData);
+  }
+  bingoTable.appendChild(bingoHeaderRow); // --------- end BINGO header row
+
+  for(i=0; i<boardSize; i++) { // ------- Generate rest of table
+    bingoRow = document.createElement("tr");
+    bingoRow.setAttribute("class", "bingoRow");
+    for(j=0; j<boardSize; j++) {
+      bingoData = document.createElement("td");
+      bingoData.setAttribute("id",j+boardSize*i);
+      if(i==(boardSize-1)/2 && j==(boardSize-1)/2) {
+        textNode = document.createTextNode("FREE");
+        bingoData.style["background-color"] = "lightgreen";
+        bingoData.style["font-weight"] = "bold";
+        bingoData.appendChild(textNode);
+      } else {
+        dataId = boardSize*i+j;
+        bingoData.setAttribute("onclick", "changeColor(this); bingoBoard["+dataId+"] = (bingoBoard["+dataId+"] + 1) % 2; checkBingo();");
+        bingoData.style["background-color"] = "white";
+      }
+      bingoRow.appendChild(bingoData);
+    }
+    bingoTable.appendChild(bingoRow);
+  } // -------- end table generation
+}
+
+
+function randomizeTable() {
+  picked = [];
+  numOfSpaces = Math.pow(boardSize,2)-1;
+  if(bingoSpaces.length < numOfSpaces) {
+    alert("Number of entries for Bingo spaces: " + bingoSpaces.length + ". Number of spaces: " + numOfSpaces + ". Insufficient number of entries.");
+    return;
+  }
+  while(picked.length < numOfSpaces) {
+    randNumber = Math.trunc(bingoSpaces.length*Math.random());
+    if(picked.indexOf(randNumber)<0) {
+      bingoIndex = picked.length;
+      bingoIndex = (bingoIndex < numOfSpaces/2) ? bingoIndex : bingoIndex+1;
+      document.getElementById(bingoIndex.toString()).innerText = bingoSpaces[randNumber];
+      picked.push(randNumber);
+    }
+  }
+}
+
+function checkBingo() {
+  numOfBingos = 0;
+  //rows
+  for(i=0; i<boardSize; i++) {
+    checkSum = 0;
+    for(j=0; j<boardSize; j++) {
+      checkSum += bingoBoard[boardSize*i+j];
+    }
+    if(checkSum == boardSize) numOfBingos++;
+  }
+
+  //cols
+  for(i=0; i<boardSize; i++) {
+    checkSum = 0;
+    for(j=0; j<boardSize; j++) {
+      checkSum += bingoBoard[i+boardSize*j];
+    }
+    if(checkSum == boardSize) numOfBingos++;
+  }
+
+  //diags
+  checkSum = 0;
+  for(i=0; i<boardSize; i++) {
+    checkSum += bingoBoard[(boardSize+1)*i]; //top left to bottom right
+  }
+  if(checkSum == boardSize) numOfBingos++;
+
+  checkSum = 0;
+  for(j=0; j<boardSize; j++) {
+    checkSum += bingoBoard[(boardSize-1)*(j+1)]; //top right to bottom left
+  }
+  if(checkSum == boardSize) numOfBingos++;
+
+  cornerIndexes = [0, boardSize-1, boardSize*(boardSize-1), boardSize*boardSize-1];
+  checkSum = 0;
+  for(i=0; i<cornerIndexes.length; i++) {
+    checkSum += bingoBoard[cornerIndexes[i]];
+  }
+  if(checkSum == 4) console.log("Four Corners");
+  if(numOfBingos == 2*(boardSize+1)) console.log("Blackout");
+
+  return numOfBingos;
+}
+
+
+
+function updateColor(color) {
+  for(i=0; i<Math.pow(boardSize,2); i++) {
+    tmp = document.getElementById(i.toString());
+    if(tmp.style["background-color"]!="white") tmp.style["background-color"] = color;
+  }
+  
+}
+
+
+function changeColor(tableData) {
+  currentColor = document.getElementById("colorPicker").value;
+  if(tableData.style["background-color"]=="white") {
+    tableData.style["background-color"] = currentColor;
+
+  } else {
+    tableData.style["background-color"] = "white";
+  }
+}
+
+
+
+
+
+
+/*
+function checkBingo(col, row, diag) // determine if Bingo has been made 
+{
+	var bingo = false;
+	var corners = false;
+	var blackout = false;
+
+	if( theboard[col][0] == 1 &&  theboard[col][1] == 1 && theboard[col][2] == 1 && theboard[col][3] == 1 && theboard[col][4] == 1 ) bingo = true;
+	else if( theboard[0][row] == 1 &&  theboard[1][row] == 1 && theboard[2][row] == 1 && theboard[3][row] == 1 && theboard[4][row] == 1 ) bingo = true;
+	else if( theboard[0][0] == 1 && theboard[0][4] == 1 && theboard[4][0] == 1 && theboard[4][4] == 1 ) corners = true;
+	 if( theboard[0][0] == 1 && theboard[0][1] == 1 && theboard[0][2] == 1 && theboard[0][3] == 1 && theboard[0][4] == 1 && theboard[1][0] == 1 && theboard[1][1] == 1  && theboard[1][2] == 1  && theboard[1][3] == 1 && theboard[1][4] == 1  && theboard[2][0] == 1  && theboard[2][1] == 1 && theboard[2][2] == 1 && theboard[2][3] == 1 && theboard[2][4] == 1  && theboard[3][0] == 1  && theboard[3][1] == 1 && theboard[3][2] == 1 && theboard[3][3] == 1 && theboard[3][4] == 1  && theboard[4][0] == 1 && theboard[4][1] == 1 && theboard[4][2] == 1 && theboard[4][3] == 1 && theboard[4][4] == 1 ) blackout = true;
+	else if( theboard == [ [1,1,1,1,1] ,   
+	[1,1,1,1,1] ,
+	[1,1,1,1,1] ,
+	[1,1,1,1,1] ,
+	[1,1,1,1,1] ]) blackout=true;
+
+	//else if (array.reduce(function(a,b)) { return a.concat(b) }
+			//.reduce(function(a,b) {return a+b});
+
+	else if( diag == 1 )
+		{
+			if( theboard[0][0] == 1 && theboard[1][1] == 1 && theboard[3][3] == 1 && theboard[4][4] == 1 ) bingo = true;
+			if( theboard[0][4] == 1 && theboard[1][3] == 1 && theboard[3][1] == 1 && theboard[4][0] == 1 ) bingo = true;
+		}
+
+	
+
+	
+	if( bingo )
+	{	document.getElementById("msg").innerHTML = "<strong><font size='+4' color='red'>BINGO!</font></strong>";
+		animate=document.getElementsByClassName("bingo");
+// animation code
+	 for(i=0; i< animate.length; i++){
+	animate[i].style["animation-name"]="example";
+    	animate[i].style["animation-duration"]="1s";
+		}
+	}
+
+	if( corners )
+	{ document.getElementById("msg").innerHTML = "<strong><font size='+4' color='red'>4 CORNERS!</font></strong>";
+	animate=document.getElementsByClassName("bingo");
+ 	 for(i=0; i< animate.length; i++){
+	animate[i].style["animation-name"]="example";
+    	animate[i].style["animation-duration"]="1s";	
+		}
+	}
+	if( blackout )
+	{ document.getElementById("msg").innerHTML = "<strong><font size='+4' color='red'>BLACKOUT!</font></strong>";
+
+	}
+
+
+} // end checkBingo()
+*/
+
+
+// ********************** end Mikes code ***********************************************************************
+
+</script>
+
+</head>
+<body onload="generateBingoTable(); randomizeTable();">
+<table id="bingoTable">
+<!-- Generated via generateBingoTable() now
+<tr class="bingo">
+  <td>B</td>
+  <td>I</td>
+  <td>N</td>
+  <td>G</td>
+  <td>O</td>
+</tr>
+-->
+</table>
+
+Select color: <input type="color" id="colorPicker" onchange="updateColor(this.value);" value="#90EE90">
+
+<br><div id="msg">   </div><br>
+
+<input id="restartbutton" type="button" value="restart" onclick="reload()">
+
+
+<P STYLE="margin-bottom: 0in"><BR>
+</P>
+<P STYLE="margin-bottom: 0in"><BR>
+</P>
+<P STYLE="margin-left: 33px;margin-top: -50px;"><B>Celebrity Bonus Space </B></p>
+<NAV>
+<UL style="margin-left: 10px;">
+	</P>
+	<LI><P STYLE="margin-bottom: 0in"><B>Vikram</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>McKown</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>Bruno</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>Eva Putnam/Boykin</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>Spargur</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>Maria Gagne</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>NJ Superdick</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>Berdean</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>No2BigGovernment</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>LibreTax</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>Gerry Trissel aka TaxMan007</B></P>
+	<LI><P STYLE="margin-bottom: 0in"><B>Kenosha.Tax.Guy (Randall Cook)</B></P>
+<LI><P STYLE="margin-bottom: 0in"><B>More to come.....</B></P>
+
+</UL>
+</NAV>
+
+
+</body>
+</html>

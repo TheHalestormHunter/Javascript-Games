@@ -1,0 +1,40 @@
+<html>
+<head>
+</head>
+<style>
+.div{
+  height:10px;
+  width:10px;
+
+}
+</style>
+<script>
+var planet = 0;
+var delay;
+function explode(){
+	if(planet != 0) planet = 0;
+	delay = setInterval(exploder, 100)
+	console.log("1")
+}
+
+function exploder(){
+	if(planet < 7){
+	planet++;
+	document.getElementById("planetS").src = "resources/Explosion/Planet" + planet + ".png";
+	}
+
+	if(planet >= 7){
+	clearInterval(delay); 
+	}
+}
+
+</script>
+<body>
+<div>
+<img id="planetS" src="resources/Explosion/Planet7.png">
+</div>
+<button onclick = "explode()">Explode!</button>
+</body>
+<footer>
+</footer>
+</html>

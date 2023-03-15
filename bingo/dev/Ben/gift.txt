@@ -1,0 +1,231 @@
+- var size = 20;
+- var minePercent = 18 / 100;
+- var board = [];
+-
+- //build the board
+- for(var y = 0; y < size; y++){
+- 	board.push(Array(size).fill(0));
+- 	for(var x = 0; x < size; x++){
+- 		board[y][x] = {mines: 0, groups: [], isMine: false, x: x, y: y}
+- 	}
+- }
+-
+- //add the mines
+- for(var mine = 0; mine < size * size * minePercent; mine++){
+- 	var cell = board[Math.floor(Math.random()*size)][Math.floor(Math.random()*size)]
+- 
+- 	// make sure the cell is not a mine
+- 	if(!cell.isMine){
+- 		cell.isMine = true;
+- 		
+- 		for(var y = -1; y <= 1; y++){
+- 			if(cell.y + y < size && cell.y + y >= 0){
+- 				for(var x = -1; x <= 1; x++){
+- 					//make sure its not outside of the board
+- 					if(cell.x + x < size && cell.x + x >= 0){
+- 						board[cell.y + y][cell.x + x].mines++;
+- 					}
+- 				}
+- 			}
+- 		}
+- 	}
+- }
+-
+- // find the groups
+- function spreadGroup(cell, group){
+- 	if(cell.groups.indexOf(group) == -1)
+- 		cell.groups.push(group);
+- 
+- 	if(cell.mines == 0){
+- 		// if the cell dose not have any mines spread to its neighbors
+- 		for(var y = -1; y <= 1; y++){
+- 			for(var x = -1; x <= 1; x++){
+- 				//make sure its not outside of the board
+- 				if(cell.x + x < size && cell.x + x >= 0 && cell.y + y < size && cell.y + y >= 0){
+- 					// make sure the neighbor cell dose not have the group
+- 					if(board[cell.y + y][cell.x + x].groups.indexOf(group) == -1)
+- 						spreadGroup(board[cell.y + y][cell.x + x], group)
+- 				}
+- 			}
+- 		}
+- 	}
+- }
+- 
+- var groups = 0;
+- for(var y = 0; y < size; y++){
+- 	for(var x = 0; x < size; x++){
+- 		var cell = board[y][x]
+- 		if(cell.mines == 0 && cell.groups.length == 0 && cell.isMine == false){
+- 			spreadGroup(cell, 'group-'+(groups++))
+- 		}
+- 	}
+- }
+
+.center
+	h2
+		| Pure CSS & HTML Minespeeper
+
+	form.wrapper
+		.header
+			button.btn.reset(type="submit") Reset
+			//- label.btn.toggle-flag(for="place-flag")
+
+		.board(style={
+			'width': size*24+'px',
+			'height': size*24+'px'
+		})
+			input#dead.group(type="checkbox")
+			input#place-flag.group(type="checkbox")
+
+			- for(var i = 0; i < groups; i++)
+				input.group(type="checkbox" id=`group-${i}`)
+
+			- for(var y = 0; y < size; y++)
+				br
+				- for(var x = 0; x < size; x++)
+					if board[y][x].isMine
+						label.cell.mine(
+							for="dead"
+							groups=board[y][x].groups.join(' ')
+						)
+					else if(board[y][x].mines > 0)
+						input(
+							type="checkbox"
+							class=`cell mines-${board[y][x].mines}`
+							groups=board[y][x].groups.join(' ')
+						)
+					else if(board[y][x].mines == 0/* && board[y][x].groups.length == 1*/)
+						label.cell.mines-0(
+							for=board[y][x].groups[0]
+							groups=board[y][x].groups.join(' ')
+						)
+	h4
+		| created by 
+		a(href="http://rdfriedl.com" target="_blank") rdfriedl
+
+
+
+===================================================================================================================================================================
+
+
+html,body
+	margin: 0px
+	height: 100%
+	width: 100%
+	overflow: auto
+
+body
+	display: flex
+	background-color: antiquewhite
+	font-family: sans-serif
+	text-align: center
+
+.center
+	margin: auto
+
+@mixin xp-button-out
+	background: #c0c0c0
+	border: 4px solid black
+	border-top-color: #fff
+	border-left-color: #fff
+	border-right-color: #808080
+	border-bottom-color: #808080
+
+@mixin xp-button-in
+	background: #c0c0c0
+	border: 4px solid black
+	border-bottom-color: #fff
+	border-right-color: #fff
+	border-left-color: #808080
+	border-top-color: #808080
+
+@mixin cell-checked
+	pointer-events: none
+
+@mixin cell-mines
+	@include cell-checked
+	&.mines-0
+		background-position: -400% -100%
+	&.mines-1
+		background-position: 0 -100%
+	&.mines-2
+		background-position: -100% -100%
+	&.mines-3
+		background-position: -200% -100%
+	&.mines-4
+		background-position: -300% -100%
+	&.mines-5
+		background-position: 0 -200%
+	&.mines-6
+		background-position: -100% -200%
+	&.mines-7
+		background-position: -200% -200%
+	&.mines-8
+		background-position: -200% -300%
+
+.wrapper
+	@include xp-button-out
+	padding: 10px
+
+.header, .board
+	@include xp-button-in
+.header
+	margin-bottom: 10px
+	display: flex
+	align-items: center
+	justify-content: center
+	padding: 5px
+.board
+	font-size: 0
+
+.btn
+	@include xp-button-out
+	padding: 3px 5px
+	cursor: pointer
+	&:hover
+		@include xp-button-in
+
+.group
+	display: none
+
+.cell
+	display: inline-block
+	font-family: sans-serif
+	font-weight: bold
+	font-size: 24px
+	width: 1em
+	height: 1em
+	margin: 0
+	color: transparent
+	appearance: none
+	outline: none
+	background-image: url(https://dl.dropboxusercontent.com/spa/ihqn7sv44ik7per/pen-res/minesweeper_tiles.jpg)
+	background-size: 500%
+	cursor: pointer
+	
+	&:checked
+		@include cell-mines
+
+// place flag
+#place-flag:checked ~ .cell:not(:checked):hover
+	background-position: -100% 0
+
+.header .toggle-flag
+	width: 1em
+	height: 1em
+	background-image: url(https://dl.dropboxusercontent.com/spa/ihqn7sv44ik7per/pen-res/minesweeper_tiles.jpg)
+	background-position: -400% 0
+	background-size: 500%
+
+@for $i from 0 to 30
+	#group-#{$i}.group:checked ~ .cell[groups~="group-#{$i}"]
+		@include cell-mines
+
+//when a mine is clicked disable all the cells
+#dead:checked ~ .cell
+	pointer-events: none
+
+#dead:checked ~ .cell.mine
+	background-position: -200% 0px
+
+

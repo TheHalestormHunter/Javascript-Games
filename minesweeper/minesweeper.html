@@ -1,0 +1,118 @@
+<!--Travis-->
+<html>
+<head>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="code/css/styles.css">
+<title>CSS - Home</title>
+
+<script src="code/minesweeper.js"></script>
+
+</head>
+<canvas width="640" height="480" id="can"></canvas>
+<body onload="onLoad()" style="z-index: 3; margin-top: 61px; background-repeat: no-repeat;
+ margin-left: 15px;">
+<button class=exitbtn id=ex>
+<img id="e0" src="resources/border/X.png" onclick="exit()">
+</button>
+<div id="gameBody">
+  <div id="wrapper">
+     <div id="minesLeft">
+        <img id="m0"><img id="m1"><img id="m2">
+          <div id="face">
+            <img id="f0" src="resources/face/smile.png" style="padding-bottom: 5px"; onclick="pause()">
+              <div id="timeElapsed">
+                <img id="t0"><img id="t1"><img id="t2">
+              </div>
+              <div id="mineButtons"></div>
+          </div> 
+      </div>
+    <div id="spaceBoard">
+      <img id="sBoard" src="resources/Space Cadet/Space Cadet Modified.png" style="margin-top: -61; float: right; display: inline-block;">
+    <div id="spaceDifficulty">
+      <img id="sD" onclick="changeDiff()">
+    </div>
+    <div id="spaceMines">
+      <img id="s0"><img id="s1"><img id="s2">
+    </div>
+    <div id="spaceTime">
+    <img id="st0"><img id="st1"><img id="st2">
+    </div>
+    <div id="scoreOne" onclick="newHighScore()">
+    <img id="ssZ0" onclick="newHighScore()"><img id="ssZ1" onclick="newHighScore()"><img id="ssZ2" onclick="newHighScore()">
+    </div>
+    <div id="scoreTwo" onclick="newHighScore()">
+    <img id="ssO0"><img id="ssO1" onclick="newHighScore()"><img id="ssO2">
+    </div>
+    <div id="scoreThree">
+    <img id="ssT0"><img id="ssT1"><img id="ssT2">
+    </div>
+    <div id="spaceFace">
+    <img id="sFace" src ="resources/face/space/face.png">
+    </div>
+    <div id="Message">
+    <div id="spaceMsg">
+    <img id="sMsg">
+    </div>
+    <div id="win">
+    <img id="wins">
+    </div>
+    <div id="wCount">
+    <img id="wc0"><img id="wc1"><img id="wc2">
+    </div>
+    <div id="lost">
+    <img id="loss">
+    </div>
+    <div id="lCount">
+    <img id="lc0"><img id="lc1"><img id="lc2">
+    </div>
+    </div> <!-- spaceMessage -->
+    
+    <div id="spaceShip">
+      <img id="sShip" src="resources/Space Cadet/blankShip.png">
+    </div>
+    <div id="Planet">
+    <img id="sPlanet" src="resources/Explosion/Planet0.png">
+    </div>
+    </div> <!-- spaceBoard -->
+  </div> <!-- wrapper -->
+</div> <!-- gameBoard -->
+
+<div class="dropdown">
+  <button onclick="myFunction()" class="dropbtn" >Game</button>
+  <div id="myDropdown" class="dropdown-content">
+    <a onclick="location.reload(true)" href="#">New  &nbsp;   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  R </a>
+    <a onclick="window.blur(true)" href="#">Pause  &nbsp;   &nbsp; &nbsp; &nbsp; &nbsp;  P </a>
+    <hr>
+    <a onclick="diff0()" href="#">Beginner</a>
+    <a onclick="diff1()" href="#">Intermediate</a>
+    <a onclick="diff2()" href="#">Expert</a>
+    <a onclick="diff3()" href="#">Custom Game</a>
+    <hr>
+    <a onclick="popGame()" href"#">Pop Out</a>
+    <hr>
+    <a onclick="" href="https://css.taxact.com">Exit</a>
+    </div>
+</div>
+
+<div class="dropdown2">
+  <button onclick="myFunction2()" class="dropbtn2">Settings</button>
+  <div id="myDropdown2" class="dropdown-content">
+    <a onclick="" href="#">System Info</a>
+    <hr>
+    <a onclick="resetScore()" href="#">Reset Statistics</a>
+    <hr>    
+    <a onclick="changeColor()" href="#">Change Color</a>
+    <hr>
+    <a onclick="toggleSolitaire()" href="#">Toggle Solitaire</a>
+    <hr>
+    <a onclick="alert('This game was created by Ben J(RIP), Travis G, and Reid K(RIP)')" href="#">About</a>  
+</div>
+</div>
+
+</body>
+<footer>
+</footer>
+</html>

@@ -1,0 +1,373 @@
+
+#game {
+  border: 1px solid black;
+  width: 500px;
+  height: 450px;
+}
+#pokemon1 {
+	position: absolute;
+	width: 500px;
+	height:150px;
+	float: left;
+	top: 157px;
+}
+
+#pokemon2 {
+	position: absolute;
+	width: 500px;
+	height: 146px;
+}
+
+#pokePlace1 {
+	position: relative;
+	float: left;
+	height: 120px;
+	width: 120px;
+	left: 30px;
+	animation: nothing 2s;
+  	animation-fill-mode: forwards;
+}
+
+#pokePlace2 {
+	position: relative;
+	float: right;
+	height: 120px;
+	width: 120px;
+	right: 30px;
+	top: 10px;
+	animation: nothing 2s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes pokeAction1 {
+    from {left: 30px}
+    to {left: 45px}
+}
+@keyframes pokeAction2 {
+    from {right: 30px}
+    to {right: 45px}
+}
+
+
+#pokemon1Tag {
+	position: relative;
+	border: solid 2px black;
+    height: 59px;
+    width: 186px;
+	float: right;
+    left: -46px;
+    top: 15px;
+}
+#expBar{
+	position: relative;
+	border: solid 1px black;
+	height: 6px;
+	width: 150px;
+	bottom: -2px;
+	right: -35px;
+}
+#exp{
+	position: relative;
+	top: 15px;
+}
+#exp1{
+	position: relative;
+	width: 0%;
+	height: 6px;
+	background-color: skyblue;
+}
+#pokemon2Tag {
+	position: relative;
+	border: solid 2px black;
+    height: 59px;
+    width: 186px;
+    left: 46px;
+    top: 15px;
+}
+
+#pokemon1Name {
+	position: relative;
+	height: 30px;
+	width: 136px;
+	left: 3px;
+	top: 1px;
+}
+#pokemon2Name {
+	position: relative;
+	height: 30px;
+	width: 136px;
+	left: 3px;
+	top: 1px;
+}
+#pokemon1Level {
+	position: relative;
+	height: 30px;
+	width: 50px;
+	float: right;
+	bottom: 29px;
+	right: 4px;
+	text-align: right;
+}
+	
+#pokemon2Level {
+	position: relative;
+	height: 30px;
+	width: 50px;
+	float: right;
+	bottom: 29px;
+	right: 4px;
+	text-align: right;
+}
+
+#pokemon1Health {
+	position: relative;
+	border: solid 1px black;
+	border-radius: 12px;
+	height: 10px;
+	width: 155px;
+	float: right;
+	right: 2px;
+	bottom: 36px;
+}
+#pokemon2Health {
+	position: relative;
+	border: solid 1px black;
+	border-radius: 12px;
+	height: 10px;
+	width: 155px;
+	float: right;
+	right: 2px;
+	bottom: 36px;
+}
+#pokemon1HPdisplay {
+	position: relative;
+	height: 15px;
+	width: 60px;
+	float: right;
+	top: 4px;
+	text-align: right;
+}
+#pokemon2HPdisplay {
+	position: relative;
+	height: 15px;
+	width: 60px;
+	float: right;
+	top: 4px;
+	text-align: right;
+}
+#pokemon1Status{
+	position: relative;
+	height: 16px;
+	width: 30px;
+	float: right;
+	bottom: 29px;
+	right: 10px;
+}
+#pokemon2Status{
+	position: relative;
+	height: 16px;
+	width: 30px;
+	float: right;
+	bottom: 29px;
+	right: 10px;
+}
+#HP {
+	position: relative;
+	height:15px;
+	width:24px;
+	top: -8px;
+	left: 2px;
+}
+#pokemon1Current {
+    position: relative;
+	width: 100%;
+	height: 10px;
+	background-color: lightgreen;
+	border-radius: 12px;
+}
+#pokemon2Current {
+    position: relative;
+	width: 100%;
+	height: 10px;
+	background-color: lightgreen;
+	border-radius: 12px;
+}
+#message {
+	position: absolute;
+	width: 500px;
+	height: 150px;
+	background-color: lightgray;
+	top: 309px;
+}
+#moveMenu {
+	position: relative;
+	border: solid 1px black;
+	width: 250px;
+	height: 166px;
+	background-color: white;
+	float: right;
+	bottom: 6px;
+}
+#desc {
+	position: relative;
+	border: solid 1px lightgray;
+	width: 240px;
+	height: 120px;
+	float: left;
+	left: 1px;
+	resize: none;
+}
+#menu1 {
+	position: relative;
+	border: solid 1px black;
+	background-color: white;	
+	float: left;
+	height: 83px;
+	width: 125px;
+}
+#menu2 {
+	position: relative;
+	border: solid 1px black;
+	background-color: white;
+	float: right;
+	height: 83px;
+	width: 125px;
+}
+#menu3 {
+	position: relative;
+	border: solid 1px black;
+	background-color: white;
+	float: left;
+	height: 83px;
+	width: 125px;
+}
+#menu4 {
+	position: relative;	
+	border: solid 1px black;
+	background-color: white;
+	float: right;
+	height: 83px;
+	width: 125px;
+}
+#move1 {
+    position: relative;	
+	float: left;
+	width: 100px;
+	height: 30px;	
+}
+#move2 {
+    position: relative;	
+	float: left;
+	width: 100px;
+	height: 30px;	
+}
+#move3 {
+    position: relative;	
+	float: left;
+	width: 100px;
+	height: 30px;	
+}
+#move4 {
+    position: relative;	
+	float: left;
+	width: 100px;
+	height: 30px;	
+}
+#PP1 {
+	position: relative;
+	border: solid 1px black;
+	float: right;
+	width: 40px;
+	height: 20px;
+	top: 14px;
+	right: -6px;
+}
+#PP2 {
+	position: relative;
+	border: solid 1px black;
+	float: right;
+	width: 40px;
+	height: 20px;
+	top: 14px;
+	right: -6px;
+}
+#PP3 {
+	position: relative;
+	border: solid 1px black;
+	float: right;
+	width: 40px;
+	height: 20px;
+	top: 14px;
+	right: -6px;
+}
+#PP4 {
+	position: relative;
+	border: solid 1px black;
+	float: right;
+	width: 40px;
+	height: 20px;
+	top: 14px;
+	right: -6px;
+}
+#buttonOptions{
+	position: absolute;
+	height: 36px;
+	bottom: 0;
+	width: 246px;
+	left: 1px;
+}
+#reset{
+	position: relative;
+	height: 36px;
+	width: 82px;
+	float: left;
+}
+#other {
+	position: relative;
+	height: 36px;
+	width: 82px;
+	float: left;
+}
+#save{
+	position: relative;
+	height: 36px;
+	width: 82px;
+	float: left;
+}
+#next{
+	position: absolute;
+	width: 25px;
+	height: 25px;
+	border: solid 1px black;
+	left: 215px;
+	top: 35px;
+}
+.moves{
+	font-size: 1.3em;
+}
+#spaceShip {
+  width: 150px;
+  height: 100px;
+  position: relative;
+  z-index: 5;
+  bottom: 563px;
+  float: right;
+  right: 7px;
+
+}
+#Planet {
+	position: relative;
+	float: left;
+	height: 114px;
+	width: 130px;
+	bottom: 621px;
+	right: 16px;
+	display: inline;
+	pointer-events: none;
+}
+
+@keyframes nothing {
+}
+
+
+

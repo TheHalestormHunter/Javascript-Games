@@ -1,0 +1,8 @@
+img { 
+	display: inline-block;
+	float: left;
+}
+#gameSquares {
+	width: 300px;
+	height: 720px;
+}
