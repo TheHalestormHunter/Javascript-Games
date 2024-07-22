@@ -1,5 +1,5 @@
 # Javascript-Games
-Some games wrote by a co-worker at a job I had a long time ago.
+Some games wrote by a co-worker at a job I had a long time ago. I do not know the working state of any of these files, use at your own risk, and/or build from them as you see fit.
 
 Table of Contents:
 
